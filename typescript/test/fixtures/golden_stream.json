@@ -1,0 +1,491 @@
+{
+  "close_code": 1000,
+  "description": "Golden session stream (protocol v2): recorded from the server loop by test_sdk_golden_fixture.py; ids and timestamps normalized. Pins frame SEQUENCING and behavior \u2014 shape is owned by schema/frames.schema.json.",
+  "frames": [
+    {
+      "earliest_feed_seq": 1,
+      "messages": [
+        {
+          "author": null,
+          "body": "please also update the docs",
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "delivered_at": null,
+          "delivered_turn_id": null,
+          "feed_seq": 4,
+          "id": "message_GOLDEN_1",
+          "sender_attribution_id": null,
+          "sender_attribution_type": null,
+          "session_id": "session_GOLDEN",
+          "status": "pending"
+        }
+      ],
+      "protocol": 3,
+      "session": {
+        "agent": {
+          "config": {
+            "budget": {
+              "day": null,
+              "month": null,
+              "session": null,
+              "week": null
+            },
+            "claude": {
+              "effort": null,
+              "fallback_model": null,
+              "max_turns": null,
+              "model": "claude-opus-5",
+              "settings": null,
+              "system": "Do something"
+            },
+            "codex": null,
+            "ellipsis": {
+              "description": null,
+              "enabled": true,
+              "interactive": true,
+              "metadata": {
+                "annotations": {},
+                "labels": []
+              },
+              "name": "stream-test-agent",
+              "version": "v1"
+            },
+            "environment": {
+              "compute": {
+                "cpu": null,
+                "memory": null,
+                "timeout": null
+              },
+              "hooks": {
+                "post_clone": null,
+                "post_start": null
+              },
+              "image": {
+                "dockerfile_append": null,
+                "setup": null
+              },
+              "repositories": [],
+              "variables": []
+            },
+            "input": null,
+            "llm": {
+              "proxy": null
+            },
+            "mcp_servers": [],
+            "output": null,
+            "permissions": {
+              "ellipsis": true,
+              "github": {
+                "permissions": null,
+                "repositories": null
+              }
+            },
+            "skills": [],
+            "trigger": null
+          },
+          "config_id": null,
+          "override": null,
+          "source": "trigger"
+        },
+        "attribution": {
+          "id": null,
+          "type": null,
+          "user": null
+        },
+        "budget": {
+          "cents": 1000,
+          "source": "account"
+        },
+        "context_repository": null,
+        "cost": {
+          "fee": 0,
+          "llm": 0,
+          "sandbox_cpu": 0,
+          "sandbox_memory": 0,
+          "total": 0
+        },
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "exit_status": null,
+        "harness": "claude_code",
+        "id": "session_GOLDEN",
+        "last_activity_at": null,
+        "last_message_at": null,
+        "metadata": {},
+        "output_prs": null,
+        "parent": {
+          "kind": null,
+          "replayed_from_session_id": null,
+          "session_id": null
+        },
+        "prompt": null,
+        "prompting": {
+          "blocked_reason": null,
+          "detail": null,
+          "enabled": true,
+          "surface_name": null
+        },
+        "session_state": "running",
+        "source": "cli",
+        "status": "running",
+        "status_reason": null,
+        "stopped": {
+          "at": null,
+          "by": null,
+          "by_user": null
+        },
+        "summary": null,
+        "surface": {
+          "run": "working",
+          "session": "alive",
+          "status": "working"
+        },
+        "tokens": {
+          "cache_creation": 0,
+          "cache_read": 0,
+          "input": 0,
+          "model": "claude-opus-4-8",
+          "output": 0,
+          "total": 0
+        },
+        "updated_at": "2026-01-01T00:00:00+00:00"
+      },
+      "type": "snapshot"
+    },
+    {
+      "records": [
+        {
+          "agent_turn_id": null,
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 1,
+          "id": "record_GOLDEN_0",
+          "model": null,
+          "payload": {
+            "config_commit_sha": null,
+            "config_name": "stream-test-agent",
+            "source": "cli"
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "session_scheduled",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "lifecycle",
+          "stream_seq": 0,
+          "tokens_info": null,
+          "tools": null
+        },
+        {
+          "agent_turn_id": null,
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 2,
+          "id": "record_GOLDEN_1",
+          "model": null,
+          "payload": {
+            "message": {
+              "content": [
+                {
+                  "text": "step 0",
+                  "type": "text"
+                }
+              ]
+            },
+            "type": "assistant"
+          },
+          "record_format": "claude_stream_json@2.0",
+          "record_type": "assistant",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "claude_code",
+          "stream_seq": 0,
+          "tokens_info": null,
+          "tools": null
+        },
+        {
+          "agent_turn_id": null,
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 3,
+          "id": "record_GOLDEN_2",
+          "model": null,
+          "payload": {
+            "message": {
+              "content": [
+                {
+                  "text": "step 1",
+                  "type": "text"
+                }
+              ]
+            },
+            "type": "assistant"
+          },
+          "record_format": "claude_stream_json@2.0",
+          "record_type": "assistant",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "claude_code",
+          "stream_seq": 1,
+          "tokens_info": null,
+          "tools": null
+        },
+        {
+          "agent_turn_id": null,
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 5,
+          "id": "record_GOLDEN_msg_received",
+          "model": null,
+          "payload": {
+            "author": null,
+            "body": "please also update the docs",
+            "closes_session": false,
+            "message_id": "message_GOLDEN_1",
+            "sender_attribution_id": null,
+            "sender_attribution_type": "None"
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "message_received",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "lifecycle",
+          "stream_seq": 0,
+          "tokens_info": null,
+          "tools": null
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "records": [
+        {
+          "agent_turn_id": null,
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 6,
+          "id": "record_GOLDEN_msg_delivered",
+          "model": null,
+          "payload": {
+            "message_id": "message_GOLDEN_1",
+            "turn_id": "turn_golden_1"
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "message_delivered",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "lifecycle",
+          "stream_seq": 0,
+          "tokens_info": null,
+          "tools": null
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "records": [
+        {
+          "agent_turn_id": "turn_golden_1",
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 7,
+          "id": "record_GOLDEN_3",
+          "model": null,
+          "payload": {
+            "message": {
+              "content": "please also update the docs",
+              "role": "user"
+            },
+            "type": "user"
+          },
+          "record_format": "claude_stream_json@2.0",
+          "record_type": "user",
+          "session_id": "session_GOLDEN",
+          "session_message_id": "message_GOLDEN_1",
+          "source": "claude_code",
+          "stream_seq": 2,
+          "tokens_info": null,
+          "tools": null
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "agent_turn_id": "turn_golden_1",
+      "kind": "text",
+      "output_tokens": 4,
+      "text": "On it \u2014 ",
+      "type": "delta"
+    },
+    {
+      "records": [
+        {
+          "agent_turn_id": "turn_golden_1",
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 8,
+          "id": "record_GOLDEN_4",
+          "model": null,
+          "payload": {
+            "message": {
+              "content": [
+                {
+                  "text": "Docs updated.",
+                  "type": "text"
+                }
+              ]
+            },
+            "type": "assistant"
+          },
+          "record_format": "claude_stream_json@2.0",
+          "record_type": "assistant",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "claude_code",
+          "stream_seq": 3,
+          "tokens_info": null,
+          "tools": null
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "session": {
+        "agent": {
+          "config": {
+            "budget": {
+              "day": null,
+              "month": null,
+              "session": null,
+              "week": null
+            },
+            "claude": {
+              "effort": null,
+              "fallback_model": null,
+              "max_turns": null,
+              "model": "claude-opus-5",
+              "settings": null,
+              "system": "Do something"
+            },
+            "codex": null,
+            "ellipsis": {
+              "description": null,
+              "enabled": true,
+              "interactive": true,
+              "metadata": {
+                "annotations": {},
+                "labels": []
+              },
+              "name": "stream-test-agent",
+              "version": "v1"
+            },
+            "environment": {
+              "compute": {
+                "cpu": null,
+                "memory": null,
+                "timeout": null
+              },
+              "hooks": {
+                "post_clone": null,
+                "post_start": null
+              },
+              "image": {
+                "dockerfile_append": null,
+                "setup": null
+              },
+              "repositories": [],
+              "variables": []
+            },
+            "input": null,
+            "llm": {
+              "proxy": null
+            },
+            "mcp_servers": [],
+            "output": null,
+            "permissions": {
+              "ellipsis": true,
+              "github": {
+                "permissions": null,
+                "repositories": null
+              }
+            },
+            "skills": [],
+            "trigger": null
+          },
+          "config_id": null,
+          "override": null,
+          "source": "trigger"
+        },
+        "attribution": {
+          "id": null,
+          "type": null,
+          "user": null
+        },
+        "budget": {
+          "cents": 1000,
+          "source": "account"
+        },
+        "context_repository": null,
+        "cost": {
+          "fee": 0,
+          "llm": 0,
+          "sandbox_cpu": 0,
+          "sandbox_memory": 0,
+          "total": 0
+        },
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "exit_status": null,
+        "harness": "claude_code",
+        "id": "session_GOLDEN",
+        "last_activity_at": null,
+        "last_message_at": null,
+        "metadata": {},
+        "output_prs": null,
+        "parent": {
+          "kind": null,
+          "replayed_from_session_id": null,
+          "session_id": null
+        },
+        "prompt": null,
+        "prompting": {
+          "blocked_reason": "closed",
+          "detail": "This conversation is closed. A new event on its surface starts a successor conversation.",
+          "enabled": false,
+          "surface_name": null
+        },
+        "session_state": "closed",
+        "source": "cli",
+        "status": "running",
+        "status_reason": null,
+        "stopped": {
+          "at": null,
+          "by": null,
+          "by_user": null
+        },
+        "summary": null,
+        "surface": {
+          "run": "working",
+          "session": "closed",
+          "status": "closed"
+        },
+        "tokens": {
+          "cache_creation": 0,
+          "cache_read": 0,
+          "input": 0,
+          "model": "claude-opus-4-8",
+          "output": 0,
+          "total": 0
+        },
+        "updated_at": "2026-01-01T00:00:00+00:00"
+      },
+      "type": "session"
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

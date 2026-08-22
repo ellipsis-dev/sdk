@@ -1,0 +1,6036 @@
+{
+  "$comment": "Anthropic's format, not an Ellipsis contract. Ellipsis does not own, version, or stabilize the shapes in this document \u2014 Claude Code does, and it changes them without notice. Only the Ellipsis envelope around the payload (SessionRecord in the OpenAPI spec, and the `claude_stream_json@2.0` record_format that versions this shape) is a stable Ellipsis contract.",
+  "$defs": {
+    "CCActiveGoalStep": {
+      "additionalProperties": true,
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "type": {
+          "const": "active_goal",
+          "default": "active_goal",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCActiveGoalStep",
+      "type": "object"
+    },
+    "CCApiErrorDetail": {
+      "additionalProperties": true,
+      "properties": {
+        "connection": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Connection"
+        },
+        "formatted": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Formatted"
+        },
+        "is_network_down": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Network Down"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        },
+        "rate_limits": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Limits"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        }
+      },
+      "title": "CCApiErrorDetail",
+      "type": "object"
+    },
+    "CCAssistantMessage": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CCContentBlock"
+          },
+          "title": "Content",
+          "type": "array"
+        },
+        "context_management": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Context Management"
+        },
+        "diagnostics": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Diagnostics"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        },
+        "stop_details": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stop Details"
+        },
+        "stop_reason": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCStopReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "stop_sequence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stop Sequence"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        },
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCMessageUsage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "CCAssistantMessage",
+      "type": "object"
+    },
+    "CCAssistantStep": {
+      "additionalProperties": true,
+      "properties": {
+        "message": {
+          "$ref": "#/$defs/CCAssistantMessage"
+        },
+        "parent_tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Tool Use Id"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "type": {
+          "const": "assistant",
+          "default": "assistant",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "message",
+        "type"
+      ],
+      "title": "CCAssistantStep",
+      "type": "object"
+    },
+    "CCAuthStatusStep": {
+      "additionalProperties": true,
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        },
+        "isAuthenticating": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Isauthenticating"
+        },
+        "output": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Output",
+          "type": "array"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "type": {
+          "const": "auth_status",
+          "default": "auth_status",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCAuthStatusStep",
+      "type": "object"
+    },
+    "CCBackgroundTask": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "task_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Type"
+        }
+      },
+      "title": "CCBackgroundTask",
+      "type": "object"
+    },
+    "CCCacheCreation": {
+      "additionalProperties": true,
+      "properties": {
+        "ephemeral_1h_input_tokens": {
+          "default": 0,
+          "title": "Ephemeral 1H Input Tokens",
+          "type": "integer"
+        },
+        "ephemeral_5m_input_tokens": {
+          "default": 0,
+          "title": "Ephemeral 5M Input Tokens",
+          "type": "integer"
+        }
+      },
+      "title": "CCCacheCreation",
+      "type": "object"
+    },
+    "CCCommandLifecycleStep": {
+      "additionalProperties": true,
+      "properties": {
+        "command_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command Uuid"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State"
+        },
+        "type": {
+          "const": "command_lifecycle",
+          "default": "command_lifecycle",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCCommandLifecycleStep",
+      "type": "object"
+    },
+    "CCCompactMetadata": {
+      "additionalProperties": true,
+      "properties": {
+        "cumulative_dropped_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cumulative Dropped Tokens"
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "messages_summarized": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Messages Summarized"
+        },
+        "post_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Post Tokens"
+        },
+        "pre_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pre Tokens"
+        },
+        "precomputed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Precomputed"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trigger"
+        },
+        "user_context": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "User Context"
+        }
+      },
+      "title": "CCCompactMetadata",
+      "type": "object"
+    },
+    "CCContentBlock": {
+      "additionalProperties": true,
+      "properties": {
+        "caller": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCContentBlockCaller"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "input": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Input"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "thinking": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Thinking"
+        },
+        "type": {
+          "$ref": "#/$defs/CCContentBlockType"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCContentBlock",
+      "type": "object"
+    },
+    "CCContentBlockCaller": {
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        }
+      },
+      "title": "CCContentBlockCaller",
+      "type": "object"
+    },
+    "CCContentBlockType": {
+      "description": "Kind of assistant content block. Known values: text | tool_use | thinking | redacted_thinking | server_tool_use | web_search_tool_result | mcp_tool_use | mcp_tool_result. Open vocabulary \u2014 Anthropic's, not Ellipsis's: treat an unrecognized kind as opaque rather than an error.",
+      "title": "CCContentBlockType",
+      "type": "string"
+    },
+    "CCConversationResetStep": {
+      "additionalProperties": true,
+      "properties": {
+        "new_conversation_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "New Conversation Id"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "type": {
+          "const": "conversation_reset",
+          "default": "conversation_reset",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCConversationResetStep",
+      "type": "object"
+    },
+    "CCHookOutcome": {
+      "description": "How a hook finished. Known values: success | blocked | error | cancelled. Open vocabulary \u2014 Anthropic's, not Ellipsis's: treat an unrecognized outcome as opaque rather than an error.",
+      "title": "CCHookOutcome",
+      "type": "string"
+    },
+    "CCKeepAliveStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "type": {
+          "const": "keep_alive",
+          "default": "keep_alive",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCKeepAliveStep",
+      "type": "object"
+    },
+    "CCMcpServer": {
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "CCMcpServer",
+      "type": "object"
+    },
+    "CCMessageUsage": {
+      "additionalProperties": true,
+      "properties": {
+        "cache_creation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCCacheCreation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "cache_creation_input_tokens": {
+          "default": 0,
+          "title": "Cache Creation Input Tokens",
+          "type": "integer"
+        },
+        "cache_read_input_tokens": {
+          "default": 0,
+          "title": "Cache Read Input Tokens",
+          "type": "integer"
+        },
+        "inference_geo": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Inference Geo"
+        },
+        "input_tokens": {
+          "default": 0,
+          "title": "Input Tokens",
+          "type": "integer"
+        },
+        "output_tokens": {
+          "default": 0,
+          "title": "Output Tokens",
+          "type": "integer"
+        },
+        "service_tier": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCServiceTier"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "CCMessageUsage",
+      "type": "object"
+    },
+    "CCPermissionDenial": {
+      "additionalProperties": true,
+      "properties": {
+        "tool_input": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Input"
+        },
+        "tool_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Name"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        }
+      },
+      "title": "CCPermissionDenial",
+      "type": "object"
+    },
+    "CCPlugin": {
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "CCPlugin",
+      "type": "object"
+    },
+    "CCPromptSuggestionStep": {
+      "additionalProperties": true,
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "suggestion": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Suggestion"
+        },
+        "type": {
+          "const": "prompt_suggestion",
+          "default": "prompt_suggestion",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCPromptSuggestionStep",
+      "type": "object"
+    },
+    "CCRateLimitEventStep": {
+      "additionalProperties": true,
+      "properties": {
+        "rate_limit_info": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rate Limit Info"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "type": {
+          "const": "rate_limit_event",
+          "default": "rate_limit_event",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCRateLimitEventStep",
+      "type": "object"
+    },
+    "CCRecalledMemory": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope"
+        }
+      },
+      "title": "CCRecalledMemory",
+      "type": "object"
+    },
+    "CCResultStep": {
+      "additionalProperties": true,
+      "properties": {
+        "api_error_status": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Error Status"
+        },
+        "duration_api_ms": {
+          "default": 0,
+          "title": "Duration Api Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "fast_mode_state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fast Mode State"
+        },
+        "is_error": {
+          "default": false,
+          "title": "Is Error",
+          "type": "boolean"
+        },
+        "modelUsage": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modelusage"
+        },
+        "num_turns": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Num Turns"
+        },
+        "permission_denials": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CCPermissionDenial"
+          },
+          "title": "Permission Denials",
+          "type": "array"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "stop_reason": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCStopReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "subtype": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subtype"
+        },
+        "terminal_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Terminal Reason"
+        },
+        "total_cost_usd": {
+          "default": 0,
+          "title": "Total Cost Usd",
+          "type": "number"
+        },
+        "ttft_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ttft Ms"
+        },
+        "type": {
+          "const": "result",
+          "default": "result",
+          "title": "Type",
+          "type": "string"
+        },
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCMessageUsage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCResultStep",
+      "type": "object"
+    },
+    "CCServiceTier": {
+      "description": "Anthropic API service tier the request was served on. Known values: standard | priority | batch. Open vocabulary \u2014 Anthropic's, not Ellipsis's: treat an unrecognized tier as opaque rather than an error.",
+      "title": "CCServiceTier",
+      "type": "string"
+    },
+    "CCSlashCommand": {
+      "additionalProperties": true,
+      "properties": {
+        "argumentHint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Argumenthint"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "CCSlashCommand",
+      "type": "object"
+    },
+    "CCStopReason": {
+      "description": "Why the model stopped generating. Known values: end_turn | max_tokens | stop_sequence | tool_use | pause_turn | refusal | model_context_window_exceeded. Open vocabulary \u2014 Anthropic's, not Ellipsis's: treat an unrecognized reason as opaque rather than an error.",
+      "title": "CCStopReason",
+      "type": "string"
+    },
+    "CCSystemAgentsKilledStep": {
+      "additionalProperties": true,
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "agents_killed",
+          "default": "agents_killed",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemAgentsKilledStep",
+      "type": "object"
+    },
+    "CCSystemApiErrorStep": {
+      "additionalProperties": true,
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCApiErrorDetail"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "max_retries": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Retries"
+        },
+        "retry_attempt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retry Attempt"
+        },
+        "retry_in_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retry In Ms"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "api_error",
+          "default": "api_error",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemApiErrorStep",
+      "type": "object"
+    },
+    "CCSystemApiRetryStep": {
+      "additionalProperties": true,
+      "properties": {
+        "attempt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attempt"
+        },
+        "error_status": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Status"
+        },
+        "max_retries": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Retries"
+        },
+        "retry_delay_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retry Delay Ms"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "api_retry",
+          "default": "api_retry",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemApiRetryStep",
+      "type": "object"
+    },
+    "CCSystemAwaySummaryStep": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "away_summary",
+          "default": "away_summary",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemAwaySummaryStep",
+      "type": "object"
+    },
+    "CCSystemBackgroundTasksChangedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "background_tasks_changed",
+          "default": "background_tasks_changed",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "tasks": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CCBackgroundTask"
+          },
+          "title": "Tasks",
+          "type": "array"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemBackgroundTasksChangedStep",
+      "type": "object"
+    },
+    "CCSystemCommandsChangedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "commands": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CCSlashCommand"
+          },
+          "title": "Commands",
+          "type": "array"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "commands_changed",
+          "default": "commands_changed",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemCommandsChangedStep",
+      "type": "object"
+    },
+    "CCSystemCompactBoundaryStep": {
+      "additionalProperties": true,
+      "properties": {
+        "compact_metadata": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCCompactMetadata"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "compact_boundary",
+          "default": "compact_boundary",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemCompactBoundaryStep",
+      "type": "object"
+    },
+    "CCSystemControlRequestProgressStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "attempt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attempt"
+        },
+        "error_status": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Status"
+        },
+        "max_retries": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Retries"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "retry_delay_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retry Delay Ms"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        },
+        "subtype": {
+          "const": "control_request_progress",
+          "default": "control_request_progress",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemControlRequestProgressStep",
+      "type": "object"
+    },
+    "CCSystemElicitationCompleteStep": {
+      "additionalProperties": true,
+      "properties": {
+        "elicitation_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elicitation Id"
+        },
+        "mcp_server_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mcp Server Name"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "elicitation_complete",
+          "default": "elicitation_complete",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemElicitationCompleteStep",
+      "type": "object"
+    },
+    "CCSystemFileSnapshotStep": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "snapshot_files": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Snapshot Files",
+          "type": "array"
+        },
+        "subtype": {
+          "const": "file_snapshot",
+          "default": "file_snapshot",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemFileSnapshotStep",
+      "type": "object"
+    },
+    "CCSystemFilesPersistedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "failed": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Failed",
+          "type": "array"
+        },
+        "files": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Files",
+          "type": "array"
+        },
+        "processed_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Processed At"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "files_persisted",
+          "default": "files_persisted",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemFilesPersistedStep",
+      "type": "object"
+    },
+    "CCSystemHookProgressStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "hook_event": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Event"
+        },
+        "hook_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Id"
+        },
+        "hook_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Name"
+        },
+        "output": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "stderr": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stderr"
+        },
+        "stdout": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stdout"
+        },
+        "subtype": {
+          "const": "hook_progress",
+          "default": "hook_progress",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemHookProgressStep",
+      "type": "object"
+    },
+    "CCSystemHookResponseStep": {
+      "additionalProperties": true,
+      "properties": {
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exit Code"
+        },
+        "hook_event": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Event"
+        },
+        "hook_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Id"
+        },
+        "hook_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Name"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCHookOutcome"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "output": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "stderr": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stderr"
+        },
+        "stdout": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stdout"
+        },
+        "subtype": {
+          "const": "hook_response",
+          "default": "hook_response",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemHookResponseStep",
+      "type": "object"
+    },
+    "CCSystemHookStartedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "hook_event": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Event"
+        },
+        "hook_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Id"
+        },
+        "hook_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Name"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "hook_started",
+          "default": "hook_started",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemHookStartedStep",
+      "type": "object"
+    },
+    "CCSystemInformationalStep": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "level": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Level"
+        },
+        "prevent_continuation": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prevent Continuation"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "informational",
+          "default": "informational",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemInformationalStep",
+      "type": "object"
+    },
+    "CCSystemInitStep": {
+      "additionalProperties": true,
+      "properties": {
+        "agents": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Agents",
+          "type": "array"
+        },
+        "analytics_disabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Analytics Disabled"
+        },
+        "apiKeySource": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Apikeysource"
+        },
+        "claude_code_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claude Code Version"
+        },
+        "cwd": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cwd"
+        },
+        "fast_mode_state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fast Mode State"
+        },
+        "mcp_servers": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CCMcpServer"
+          },
+          "title": "Mcp Servers",
+          "type": "array"
+        },
+        "memory_paths": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "title": "Memory Paths",
+          "type": "object"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "output_style": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Style"
+        },
+        "permissionMode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Permissionmode"
+        },
+        "plugins": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CCPlugin"
+          },
+          "title": "Plugins",
+          "type": "array"
+        },
+        "product_feedback_disabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Feedback Disabled"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "skills": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Skills",
+          "type": "array"
+        },
+        "slash_commands": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Slash Commands",
+          "type": "array"
+        },
+        "subtype": {
+          "const": "init",
+          "default": "init",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "tools": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tools",
+          "type": "array"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemInitStep",
+      "type": "object"
+    },
+    "CCSystemLocalCommandOutputStep": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "local_command_output",
+          "default": "local_command_output",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemLocalCommandOutputStep",
+      "type": "object"
+    },
+    "CCSystemMemoryRecallStep": {
+      "additionalProperties": true,
+      "properties": {
+        "memories": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CCRecalledMemory"
+          },
+          "title": "Memories",
+          "type": "array"
+        },
+        "mode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mode"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "memory_recall",
+          "default": "memory_recall",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemMemoryRecallStep",
+      "type": "object"
+    },
+    "CCSystemMemorySavedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "memory_saved",
+          "default": "memory_saved",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "team_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Count"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        },
+        "verb": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verb"
+        },
+        "written_paths": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Written Paths",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemMemorySavedStep",
+      "type": "object"
+    },
+    "CCSystemMirrorErrorStep": {
+      "additionalProperties": true,
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        },
+        "key": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Key"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "mirror_error",
+          "default": "mirror_error",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemMirrorErrorStep",
+      "type": "object"
+    },
+    "CCSystemModelConsentFallbackStep": {
+      "additionalProperties": true,
+      "properties": {
+        "choice": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Choice"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "model_consent_fallback",
+          "default": "model_consent_fallback",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemModelConsentFallbackStep",
+      "type": "object"
+    },
+    "CCSystemModelFallbackStep": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "fallback_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fallback Model"
+        },
+        "original_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Model"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "model_fallback",
+          "default": "model_fallback",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trigger"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemModelFallbackStep",
+      "type": "object"
+    },
+    "CCSystemModelRefusalFallbackStep": {
+      "additionalProperties": true,
+      "properties": {
+        "api_refusal_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Refusal Category"
+        },
+        "direction": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Direction"
+        },
+        "fallback_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fallback Model"
+        },
+        "original_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Model"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "model_refusal_fallback",
+          "default": "model_refusal_fallback",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trigger"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemModelRefusalFallbackStep",
+      "type": "object"
+    },
+    "CCSystemModelRefusalNoFallbackStep": {
+      "additionalProperties": true,
+      "properties": {
+        "api_refusal_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Refusal Category"
+        },
+        "api_refusal_explanation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Refusal Explanation"
+        },
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "original_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Model"
+        },
+        "refused_user_message_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Refused User Message Uuid"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "model_refusal_no_fallback",
+          "default": "model_refusal_no_fallback",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemModelRefusalNoFallbackStep",
+      "type": "object"
+    },
+    "CCSystemNotificationStep": {
+      "additionalProperties": true,
+      "properties": {
+        "key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Key"
+        },
+        "priority": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Priority"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "notification",
+          "default": "notification",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemNotificationStep",
+      "type": "object"
+    },
+    "CCSystemOutputTokensStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "estimated_tokens": {
+          "default": 0,
+          "title": "Estimated Tokens",
+          "type": "integer"
+        },
+        "estimated_tokens_delta": {
+          "default": 0,
+          "title": "Estimated Tokens Delta",
+          "type": "integer"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "output_tokens",
+          "default": "output_tokens",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemOutputTokensStep",
+      "type": "object"
+    },
+    "CCSystemPermissionDeniedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "agent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Agent Id"
+        },
+        "decision_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decision Reason"
+        },
+        "decision_reason_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decision Reason Type"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "permission_denied",
+          "default": "permission_denied",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "tool_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Name"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemPermissionDeniedStep",
+      "type": "object"
+    },
+    "CCSystemPermissionRetryStep": {
+      "additionalProperties": true,
+      "properties": {
+        "commands": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Commands",
+          "type": "array"
+        },
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "permission_retry",
+          "default": "permission_retry",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemPermissionRetryStep",
+      "type": "object"
+    },
+    "CCSystemPluginInstallStep": {
+      "additionalProperties": true,
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        },
+        "subtype": {
+          "const": "plugin_install",
+          "default": "plugin_install",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemPluginInstallStep",
+      "type": "object"
+    },
+    "CCSystemPostTurnSummaryStep": {
+      "additionalProperties": true,
+      "properties": {
+        "needs_action": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Needs Action"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "status_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status Category"
+        },
+        "status_detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status Detail"
+        },
+        "subtype": {
+          "const": "post_turn_summary",
+          "default": "post_turn_summary",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "summarizes_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summarizes Uuid"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemPostTurnSummaryStep",
+      "type": "object"
+    },
+    "CCSystemScheduledTaskFireStep": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "scheduled_task_fire",
+          "default": "scheduled_task_fire",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemScheduledTaskFireStep",
+      "type": "object"
+    },
+    "CCSystemSessionStateChangedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State"
+        },
+        "subtype": {
+          "const": "session_state_changed",
+          "default": "session_state_changed",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemSessionStateChangedStep",
+      "type": "object"
+    },
+    "CCSystemStatusStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        },
+        "subtype": {
+          "const": "status",
+          "default": "status",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemStatusStep",
+      "type": "object"
+    },
+    "CCSystemStopHookSummaryStep": {
+      "additionalProperties": true,
+      "properties": {
+        "has_output": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Has Output"
+        },
+        "hook_additional_context": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Hook Additional Context",
+          "type": "array"
+        },
+        "hook_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Count"
+        },
+        "hook_errors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Hook Errors",
+          "type": "array"
+        },
+        "hook_infos": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Hook Infos",
+          "type": "array"
+        },
+        "hook_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hook Label"
+        },
+        "level": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Level"
+        },
+        "prevented_continuation": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prevented Continuation"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "stop_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stop Reason"
+        },
+        "subtype": {
+          "const": "stop_hook_summary",
+          "default": "stop_hook_summary",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        },
+        "total_duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Duration Ms"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemStopHookSummaryStep",
+      "type": "object"
+    },
+    "CCSystemTaskNotificationStep": {
+      "additionalProperties": true,
+      "properties": {
+        "output_file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output File"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        },
+        "subtype": {
+          "const": "task_notification",
+          "default": "task_notification",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summary"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCTaskNotificationUsage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemTaskNotificationStep",
+      "type": "object"
+    },
+    "CCSystemTaskProgressStep": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "last_tool_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Tool Name"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subagent_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subagent Type"
+        },
+        "subtype": {
+          "const": "task_progress",
+          "default": "task_progress",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summary"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCTaskNotificationUsage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemTaskProgressStep",
+      "type": "object"
+    },
+    "CCSystemTaskStartedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "prompt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "skip_transcript": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Skip Transcript"
+        },
+        "subagent_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subagent Type"
+        },
+        "subtype": {
+          "const": "task_started",
+          "default": "task_started",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "task_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Type"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        },
+        "workflow_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Workflow Name"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemTaskStartedStep",
+      "type": "object"
+    },
+    "CCSystemTaskSummaryStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "task_summary",
+          "default": "task_summary",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemTaskSummaryStep",
+      "type": "object"
+    },
+    "CCSystemTaskUpdatedStep": {
+      "additionalProperties": true,
+      "properties": {
+        "patch": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCTaskPatch"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "task_updated",
+          "default": "task_updated",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemTaskUpdatedStep",
+      "type": "object"
+    },
+    "CCSystemThinkingStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "thinking",
+          "default": "thinking",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemThinkingStep",
+      "type": "object"
+    },
+    "CCSystemThinkingTokensStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "estimated_tokens": {
+          "default": 0,
+          "title": "Estimated Tokens",
+          "type": "integer"
+        },
+        "estimated_tokens_delta": {
+          "default": 0,
+          "title": "Estimated Tokens Delta",
+          "type": "integer"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "thinking_tokens",
+          "default": "thinking_tokens",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemThinkingTokensStep",
+      "type": "object"
+    },
+    "CCSystemTurnDurationStep": {
+      "additionalProperties": true,
+      "properties": {
+        "budget_limit": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Budget Limit"
+        },
+        "budget_nudges": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Budget Nudges"
+        },
+        "budget_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Budget Tokens"
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "message_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message Count"
+        },
+        "pending_background_agent_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pending Background Agent Count"
+        },
+        "pending_workflow_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pending Workflow Count"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "turn_duration",
+          "default": "turn_duration",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemTurnDurationStep",
+      "type": "object"
+    },
+    "CCSystemWorkerShuttingDownStep": {
+      "additionalProperties": true,
+      "properties": {
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "const": "worker_shutting_down",
+          "default": "worker_shutting_down",
+          "title": "Subtype",
+          "type": "string"
+        },
+        "type": {
+          "const": "system",
+          "default": "system",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "title": "CCSystemWorkerShuttingDownStep",
+      "type": "object"
+    },
+    "CCTaskNotificationUsage": {
+      "additionalProperties": true,
+      "properties": {
+        "duration_ms": {
+          "default": 0,
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "tool_uses": {
+          "default": 0,
+          "title": "Tool Uses",
+          "type": "integer"
+        },
+        "total_tokens": {
+          "default": 0,
+          "title": "Total Tokens",
+          "type": "integer"
+        }
+      },
+      "title": "CCTaskNotificationUsage",
+      "type": "object"
+    },
+    "CCTaskPatch": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "end_time": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Time"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        },
+        "is_backgrounded": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Backgrounded"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        },
+        "total_paused_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Paused Ms"
+        }
+      },
+      "title": "CCTaskPatch",
+      "type": "object"
+    },
+    "CCToolProgressStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "elapsed_time_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elapsed Time Seconds"
+        },
+        "parent_tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Tool Use Id"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "tool_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Name"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        },
+        "type": {
+          "const": "tool_progress",
+          "default": "tool_progress",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCToolProgressStep",
+      "type": "object"
+    },
+    "CCToolResultContent": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "$ref": "#/$defs/CCToolResultContentBlock"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "is_error": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Error"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Id"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        }
+      },
+      "title": "CCToolResultContent",
+      "type": "object"
+    },
+    "CCToolResultContentBlock": {
+      "additionalProperties": true,
+      "properties": {
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        }
+      },
+      "title": "CCToolResultContentBlock",
+      "type": "object"
+    },
+    "CCToolUseResult": {
+      "additionalProperties": true,
+      "properties": {
+        "file": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCToolUseResultFile"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "stderr": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stderr"
+        },
+        "stdout": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stdout"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        }
+      },
+      "title": "CCToolUseResult",
+      "type": "object"
+    },
+    "CCToolUseResultFile": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "filePath": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Filepath"
+        },
+        "numLines": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Numlines"
+        },
+        "startLine": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Startline"
+        },
+        "totalLines": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Totallines"
+        }
+      },
+      "title": "CCToolUseResultFile",
+      "type": "object"
+    },
+    "CCTranscriptMirrorStep": {
+      "additionalProperties": true,
+      "description": "NOT IN THE DURABLE RECORD FEED: Ellipsis filters this line out as a liveness tick before ingest, so it never becomes a session record \u2014 it is described here only so this schema stays a faithful account of what Claude Code emits.",
+      "properties": {
+        "entries": {
+          "default": [],
+          "items": {},
+          "title": "Entries",
+          "type": "array"
+        },
+        "filePath": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Filepath"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "type": {
+          "const": "transcript_mirror",
+          "default": "transcript_mirror",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCTranscriptMirrorStep",
+      "type": "object"
+    },
+    "CCUnknownStep": {
+      "additionalProperties": true,
+      "description": "A line whose `type` \u2014 or, for `type: system`, whose `subtype` \u2014 is not one of the variants above. Known `type` values: system | assistant | user | result | tool_progress | auth_status | prompt_suggestion | rate_limit_event | conversation_reset | transcript_mirror | command_lifecycle | active_goal | keep_alive (plus `stream_event`, see the root description). Known system `subtype` values: init | hook_started | hook_progress | hook_response | stop_hook_summary | task_started | task_progress | task_updated | task_notification | task_summary | background_tasks_changed | thinking_tokens | output_tokens | thinking | api_retry | api_error | notification | status | commands_changed | compact_boundary | informational | local_command_output | post_turn_summary | session_state_changed | turn_duration | control_request_progress | permission_denied | permission_retry | model_fallback | model_consent_fallback | model_refusal_fallback | model_refusal_no_fallback | memory_saved | memory_recall | agents_killed | away_summary | file_snapshot | scheduled_task_fire | plugin_install | files_persisted | mirror_error | elicitation_complete | worker_shutting_down. This variant exists so the union stays OPEN: Anthropic adds message types on Claude Code's release cadence, and a new one must deserialize as an opaque line rather than fail validation.",
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "subtype": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subtype"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CCUnknownStep",
+      "type": "object"
+    },
+    "CCUserMessage": {
+      "additionalProperties": true,
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "$ref": "#/$defs/CCToolResultContent"
+              },
+              "type": "array"
+            }
+          ],
+          "default": [],
+          "title": "Content"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        }
+      },
+      "title": "CCUserMessage",
+      "type": "object"
+    },
+    "CCUserStep": {
+      "additionalProperties": true,
+      "properties": {
+        "message": {
+          "$ref": "#/$defs/CCUserMessage"
+        },
+        "parent_tool_use_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Tool Use Id"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "timestamp": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timestamp"
+        },
+        "tool_use_result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CCToolUseResult"
+            },
+            {
+              "items": {
+                "$ref": "#/$defs/CCToolResultContentBlock"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Use Result"
+        },
+        "type": {
+          "const": "user",
+          "default": "user",
+          "title": "Type",
+          "type": "string"
+        },
+        "uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uuid"
+        }
+      },
+      "required": [
+        "message",
+        "type"
+      ],
+      "title": "CCUserStep",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/CCSystemInitStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemHookStartedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemHookProgressStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemHookResponseStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemStopHookSummaryStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemTaskStartedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemTaskProgressStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemTaskUpdatedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemTaskNotificationStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemTaskSummaryStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemBackgroundTasksChangedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemThinkingTokensStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemOutputTokensStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemThinkingStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemApiRetryStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemApiErrorStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemNotificationStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemStatusStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemCommandsChangedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemCompactBoundaryStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemInformationalStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemLocalCommandOutputStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemPostTurnSummaryStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemSessionStateChangedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemTurnDurationStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemControlRequestProgressStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemPermissionDeniedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemPermissionRetryStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemModelFallbackStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemModelConsentFallbackStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemModelRefusalFallbackStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemModelRefusalNoFallbackStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemMemorySavedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemMemoryRecallStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemAgentsKilledStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemAwaySummaryStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemFileSnapshotStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemScheduledTaskFireStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemPluginInstallStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemFilesPersistedStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemMirrorErrorStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemElicitationCompleteStep"
+    },
+    {
+      "$ref": "#/$defs/CCSystemWorkerShuttingDownStep"
+    },
+    {
+      "$ref": "#/$defs/CCAssistantStep"
+    },
+    {
+      "$ref": "#/$defs/CCUserStep"
+    },
+    {
+      "$ref": "#/$defs/CCResultStep"
+    },
+    {
+      "$ref": "#/$defs/CCToolProgressStep"
+    },
+    {
+      "$ref": "#/$defs/CCAuthStatusStep"
+    },
+    {
+      "$ref": "#/$defs/CCPromptSuggestionStep"
+    },
+    {
+      "$ref": "#/$defs/CCRateLimitEventStep"
+    },
+    {
+      "$ref": "#/$defs/CCConversationResetStep"
+    },
+    {
+      "$ref": "#/$defs/CCTranscriptMirrorStep"
+    },
+    {
+      "$ref": "#/$defs/CCCommandLifecycleStep"
+    },
+    {
+      "$ref": "#/$defs/CCActiveGoalStep"
+    },
+    {
+      "$ref": "#/$defs/CCKeepAliveStep"
+    },
+    {
+      "$ref": "#/$defs/CCUnknownStep"
+    }
+  ],
+  "description": "One line of Claude Code's `--output-format stream-json` stdout, exactly as Claude Code wrote it. This is the `payload` of an Ellipsis session record whose `record_format` is `claude_stream_json@2.0` (GET /v1/sessions/{id}/records, GET /v1/sessions/{id}/export, and the `records_append`/`snapshot` frames of WS /v1/sessions/{id}/stream). Ellipsis passes the line through VERBATIM \u2014 no transformation, no normalization, no field renaming \u2014 and reads only enough of it to fill the record envelope. Anthropic owns this format and it is undocumented, so nothing here is closed: unknown `type`/`subtype` values match `CCUnknownStep`, every object accepts unknown fields, and value enums are published as plain strings. Two things Claude Code emits that are absent from the durable record feed: the variants marked in their own description (liveness ticks Ellipsis drops before ingest), and `type: stream_event` partial-message deltas, which have no variant at all \u2014 Ellipsis digests them into ephemeral stream `delta` frames and never persists them (the `system`/`output_tokens` variant is Ellipsis's own throttled summary of them, not a Claude Code line).",
+  "title": "ClaudeCodeStreamJsonLine"
+}
