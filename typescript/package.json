@@ -1,0 +1,31 @@
+{
+  "name": "@ellipsis-dev/sdk",
+  "version": "0.27.0",
+  "private": true,
+  "description": "TypeScript SDK for the Ellipsis agents platform: /v1 REST types + client, the session stream WebSocket client, and the session transcript store.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./stream": "./src/stream/index.ts",
+    "./store": "./src/store/index.ts"
+  },
+  "scripts": {
+    "gen": "node scripts/gen-types.mjs",
+    "build": "tsup",
+    "prepare:publish": "node scripts/prepare-publish.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/*.mjs\" \"*.md\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/*.mjs\" \"*.md\""
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "^15.0.4",
+    "openapi-typescript": "^7.9.1",
+    "prettier": "^3.7.4",
+    "tsup": "^8.5.1",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.4"
+  }
+}

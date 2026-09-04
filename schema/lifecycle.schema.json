@@ -1,0 +1,561 @@
+{
+  "$defs": {
+    "MessageDeliveredPayload": {
+      "description": "message_delivered \u2014 a turn consumed the message.",
+      "properties": {
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_id",
+        "turn_id"
+      ],
+      "title": "MessageDeliveredPayload",
+      "type": "object"
+    },
+    "MessageReceivedPayload": {
+      "description": "message_received \u2014 a message landed in the session inbox. Puts \"what\narrived, from whom, when\" in the downloadable log; the session_messages\nrow is the internal delivery projection.",
+      "properties": {
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author"
+        },
+        "body": {
+          "title": "Body",
+          "type": "string"
+        },
+        "closes_session": {
+          "default": false,
+          "title": "Closes Session",
+          "type": "boolean"
+        },
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "sender_attribution_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sender Attribution Id"
+        },
+        "sender_attribution_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sender Attribution Type"
+        }
+      },
+      "required": [
+        "message_id",
+        "body"
+      ],
+      "title": "MessageReceivedPayload",
+      "type": "object"
+    },
+    "MessageRequeuedPayload": {
+      "description": "message_requeued \u2014 an errored turn returned the message to the inbox\n(at-least-once delivery; the next wake redelivers).",
+      "properties": {
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_id",
+        "turn_id"
+      ],
+      "title": "MessageRequeuedPayload",
+      "type": "object"
+    },
+    "OutboxCollectedPayload": {
+      "description": "outbox_collected \u2014 the platform read a code_review session's\n/ellipsis/outbox/* at finalize (CODE_REVIEW_v3.md \u00a73). Carries both raw\nand parsed so the feed alone tells the whole delivery story; the\ncode_review_outbox table is the queryable projection of this record.",
+      "properties": {
+        "findings": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "parse_errors": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Parse Errors",
+          "type": "array"
+        },
+        "parser_version": {
+          "title": "Parser Version",
+          "type": "string"
+        },
+        "raw": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "title": "Raw",
+          "type": "object"
+        }
+      },
+      "required": [
+        "parser_version"
+      ],
+      "title": "OutboxCollectedPayload",
+      "type": "object"
+    },
+    "SandboxOutputPayload": {
+      "description": "sandbox_output \u2014 one chunk of provisioning/lifecycle-script output.\nMany fire per execution; `chunk` rides the idempotency key. These records\nARE the durable copy (archived into the session log's S3 segments), under\na high per-session cap + truncation marker.",
+      "properties": {
+        "chunk": {
+          "title": "Chunk",
+          "type": "integer"
+        },
+        "lines": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Lines",
+          "type": "array"
+        },
+        "phase": {
+          "title": "Phase",
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "stream": {
+          "default": "stdout",
+          "title": "Stream",
+          "type": "string"
+        }
+      },
+      "required": [
+        "phase",
+        "chunk",
+        "lines"
+      ],
+      "title": "SandboxOutputPayload",
+      "type": "object"
+    },
+    "SandboxPhasePayload": {
+      "description": "sandbox_phase \u2014 one transition of the provisioning state machine, so\nclients can narrate 'found a cached image' / 'cloning' / 'snapshotting'\nlive and locate failures. Phases are an OPEN vocabulary (SandboxPhase has\nthe known values); `detail` carries phase-specific extras additively\n(e.g. {\"cache_tier\": \"incremental\"} on image completion).",
+      "properties": {
+        "detail": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "phase": {
+          "title": "Phase",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        }
+      },
+      "required": [
+        "phase",
+        "status"
+      ],
+      "title": "SandboxPhasePayload",
+      "type": "object"
+    },
+    "SandboxReadyPayload": {
+      "description": "sandbox_ready \u2014 the box is up and the harness is about to launch: the\nsummary anchor closing the provisioning story. cache_tier/phase_timings\nduplicate the sandboxes-row columns purely for rendering convenience \u2014 the\nrow is the authority (\u00a72).",
+      "properties": {
+        "cache_tier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cache Tier"
+        },
+        "phase_timings": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "default": {},
+          "title": "Phase Timings",
+          "type": "object"
+        },
+        "repositories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Repositories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "repositories"
+      ],
+      "title": "SandboxReadyPayload",
+      "type": "object"
+    },
+    "SandboxStartingPayload": {
+      "description": "sandbox_starting \u2014 provisioning begins for this execution.",
+      "properties": {
+        "repositories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Repositories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "repositories"
+      ],
+      "title": "SandboxStartingPayload",
+      "type": "object"
+    },
+    "SessionCancelledPayload": {
+      "description": "session_cancelled \u2014 a preflight gate cancelled the session before any\nsandbox existed. Session-scoped (no execution).",
+      "properties": {
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "title": "SessionCancelledPayload",
+      "type": "object"
+    },
+    "SessionClosedPayload": {
+      "description": "session_closed \u2014 the conversation terminalized (closing event's final\nturn, or an ephemeral session's terminal).",
+      "properties": {},
+      "title": "SessionClosedPayload",
+      "type": "object"
+    },
+    "SessionIdlePayload": {
+      "description": "session_idle \u2014 the warm loop ended and the durable conversation is\nparked; the next message wakes it.",
+      "properties": {},
+      "title": "SessionIdlePayload",
+      "type": "object"
+    },
+    "SessionResumedPayload": {
+      "description": "session_resumed \u2014 a wake mounted the teardown snapshots and --resumed\nthe transcript. Its ABSENCE after a wake is the degraded-wake signal.",
+      "properties": {
+        "wake_index": {
+          "title": "Wake Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "wake_index"
+      ],
+      "title": "SessionResumedPayload",
+      "type": "object"
+    },
+    "SessionRetryingPayload": {
+      "description": "session_retrying \u2014 a transient infra failure before the agent acted\nhanded the session back for another attempt (bounded).",
+      "properties": {
+        "attempt": {
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "attempt"
+      ],
+      "title": "SessionRetryingPayload",
+      "type": "object"
+    },
+    "SessionScheduledPayload": {
+      "description": "session_scheduled \u2014 the session row exists and is queued for a worker.\nThe one session-scoped record emitted at creation (no execution yet).",
+      "properties": {
+        "config_commit_sha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Config Commit Sha"
+        },
+        "config_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Config Name"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "title": "SessionScheduledPayload",
+      "type": "object"
+    },
+    "SessionStartingPayload": {
+      "description": "session_starting \u2014 a worker claimed the session and preflight passed.\nEmitted on EVERY claim; clients render wake_index > 0 as a wake.",
+      "properties": {
+        "attempt": {
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "wake_index": {
+          "title": "Wake Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "attempt",
+        "wake_index"
+      ],
+      "title": "SessionStartingPayload",
+      "type": "object"
+    },
+    "TurnCompletedPayload": {
+      "description": "turn_completed \u2014 the turn's result event closed it.",
+      "properties": {
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        },
+        "turn_index": {
+          "title": "Turn Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "turn_id",
+        "turn_index"
+      ],
+      "title": "TurnCompletedPayload",
+      "type": "object"
+    },
+    "TurnFailedPayload": {
+      "description": "turn_failed \u2014 the turn terminalized without completing (its consumed\nmessages requeue).",
+      "properties": {
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        },
+        "turn_index": {
+          "title": "Turn Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "turn_id",
+        "turn_index"
+      ],
+      "title": "TurnFailedPayload",
+      "type": "object"
+    },
+    "TurnStartedPayload": {
+      "description": "turn_started \u2014 a message-exchange began.",
+      "properties": {
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        },
+        "turn_index": {
+          "title": "Turn Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "turn_id",
+        "turn_index"
+      ],
+      "title": "TurnStartedPayload",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Payloads of source='lifecycle' session records, keyed by record_type. Contract (SESSION_LIFECYCLE_EVENTS.md \u00a72): payload changes are additive-only; clients MUST ignore unknown record types and unknown payload fields, and MUST render unknown phase/step/status values generically.",
+  "properties": {
+    "message_delivered": {
+      "$ref": "#/$defs/MessageDeliveredPayload"
+    },
+    "message_received": {
+      "$ref": "#/$defs/MessageReceivedPayload"
+    },
+    "message_requeued": {
+      "$ref": "#/$defs/MessageRequeuedPayload"
+    },
+    "outbox_collected": {
+      "$ref": "#/$defs/OutboxCollectedPayload"
+    },
+    "sandbox_output": {
+      "$ref": "#/$defs/SandboxOutputPayload"
+    },
+    "sandbox_phase": {
+      "$ref": "#/$defs/SandboxPhasePayload"
+    },
+    "sandbox_ready": {
+      "$ref": "#/$defs/SandboxReadyPayload"
+    },
+    "sandbox_starting": {
+      "$ref": "#/$defs/SandboxStartingPayload"
+    },
+    "session_cancelled": {
+      "$ref": "#/$defs/SessionCancelledPayload"
+    },
+    "session_closed": {
+      "$ref": "#/$defs/SessionClosedPayload"
+    },
+    "session_idle": {
+      "$ref": "#/$defs/SessionIdlePayload"
+    },
+    "session_resumed": {
+      "$ref": "#/$defs/SessionResumedPayload"
+    },
+    "session_retrying": {
+      "$ref": "#/$defs/SessionRetryingPayload"
+    },
+    "session_scheduled": {
+      "$ref": "#/$defs/SessionScheduledPayload"
+    },
+    "session_starting": {
+      "$ref": "#/$defs/SessionStartingPayload"
+    },
+    "turn_completed": {
+      "$ref": "#/$defs/TurnCompletedPayload"
+    },
+    "turn_failed": {
+      "$ref": "#/$defs/TurnFailedPayload"
+    },
+    "turn_started": {
+      "$ref": "#/$defs/TurnStartedPayload"
+    }
+  },
+  "required": [
+    "message_delivered",
+    "message_received",
+    "message_requeued",
+    "outbox_collected",
+    "sandbox_output",
+    "sandbox_phase",
+    "sandbox_ready",
+    "sandbox_starting",
+    "session_cancelled",
+    "session_closed",
+    "session_idle",
+    "session_resumed",
+    "session_retrying",
+    "session_scheduled",
+    "session_starting",
+    "turn_completed",
+    "turn_failed",
+    "turn_started"
+  ],
+  "title": "LifecyclePayloads",
+  "type": "object"
+}

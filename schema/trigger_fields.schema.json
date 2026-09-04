@@ -1,0 +1,374 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "The published react-surface field sets: per trigger surface, the dotted paths an agent config's input.message template may reference. Referencing an object- or array-typed path renders the whole value as pretty-printed JSON.",
+  "surfaces": {
+    "issue": [
+      {
+        "description": "The issue event that fired (opened | closed | commented).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The issue number.",
+        "path": "issue.number",
+        "type": "integer"
+      },
+      {
+        "description": "The issue title.",
+        "path": "issue.title",
+        "type": "string"
+      },
+      {
+        "description": "The issue body (empty string when the issue has none).",
+        "path": "issue.body",
+        "type": "string"
+      },
+      {
+        "description": "The issue author's login.",
+        "path": "issue.author",
+        "type": "string"
+      },
+      {
+        "description": "The issue's web URL.",
+        "path": "issue.url",
+        "type": "string"
+      },
+      {
+        "description": "The issue state (open | closed).",
+        "path": "issue.state",
+        "type": "string"
+      },
+      {
+        "description": "The issue's label names.",
+        "path": "issue.labels",
+        "type": "array[string]"
+      },
+      {
+        "description": "The issue's comments, oldest first.",
+        "path": "comments",
+        "type": "array[object{author,body,url}]"
+      }
+    ],
+    "linear_issue": [
+      {
+        "description": "The Linear issue event that fired (opened).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The Linear issue's UUID.",
+        "path": "issue.id",
+        "type": "string"
+      },
+      {
+        "description": "The human identifier (e.g. \"ENG-123\").",
+        "path": "issue.identifier",
+        "type": "string"
+      },
+      {
+        "description": "The issue title.",
+        "path": "issue.title",
+        "type": "string"
+      },
+      {
+        "description": "The issue description (empty string when it has none).",
+        "path": "issue.description",
+        "type": "string"
+      },
+      {
+        "description": "The issue's web URL.",
+        "path": "issue.url",
+        "type": "string"
+      },
+      {
+        "description": "The owning team's name.",
+        "path": "issue.team",
+        "type": "string"
+      },
+      {
+        "description": "The issue's workflow state.",
+        "path": "issue.state",
+        "type": "string"
+      },
+      {
+        "description": "The issue creator's name (empty string when unknown).",
+        "path": "issue.creator",
+        "type": "string"
+      },
+      {
+        "description": "The issue's comments, oldest first.",
+        "path": "comments",
+        "type": "array[object{author,body}]"
+      }
+    ],
+    "pull_request": [
+      {
+        "description": "The pull request event that fired (opened | pushed | merged | closed | review_submitted | commented).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The pull request number.",
+        "path": "pull_request.number",
+        "type": "integer"
+      },
+      {
+        "description": "The pull request title.",
+        "path": "pull_request.title",
+        "type": "string"
+      },
+      {
+        "description": "The pull request body (empty string when it has none).",
+        "path": "pull_request.body",
+        "type": "string"
+      },
+      {
+        "description": "The pull request author's login.",
+        "path": "pull_request.author",
+        "type": "string"
+      },
+      {
+        "description": "The pull request's web URL.",
+        "path": "pull_request.url",
+        "type": "string"
+      },
+      {
+        "description": "The pull request state (open | closed).",
+        "path": "pull_request.state",
+        "type": "string"
+      },
+      {
+        "description": "Whether the pull request is a draft.",
+        "path": "pull_request.draft",
+        "type": "boolean"
+      },
+      {
+        "description": "The branch the pull request targets.",
+        "path": "pull_request.base_branch",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request is from.",
+        "path": "pull_request.head_branch",
+        "type": "string"
+      },
+      {
+        "description": "The base commit SHA.",
+        "path": "pull_request.base_sha",
+        "type": "string"
+      },
+      {
+        "description": "The head commit SHA (the event-time head).",
+        "path": "pull_request.head_sha",
+        "type": "string"
+      },
+      {
+        "description": "The pull request's label names.",
+        "path": "pull_request.labels",
+        "type": "array[string]"
+      },
+      {
+        "description": "The pull request's commits, oldest first.",
+        "path": "commits",
+        "type": "array[object{sha,message,author}]"
+      }
+    ],
+    "push": [
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The pushed branch name.",
+        "path": "branch",
+        "type": "string"
+      },
+      {
+        "description": "The branch head SHA before the push.",
+        "path": "before",
+        "type": "string"
+      },
+      {
+        "description": "The branch head SHA after the push.",
+        "path": "after",
+        "type": "string"
+      },
+      {
+        "description": "Whether the push was a force push.",
+        "path": "forced",
+        "type": "boolean"
+      },
+      {
+        "description": "The pusher's login.",
+        "path": "pusher.login",
+        "type": "string"
+      },
+      {
+        "description": "The pushed commits (GitHub caps the payload at 20).",
+        "path": "commits",
+        "type": "array[object{sha,message,author}]"
+      }
+    ],
+    "sentry": [
+      {
+        "description": "The Sentry alert kind (issue_alert | metric_alert).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The Sentry organization slug.",
+        "path": "organization_slug",
+        "type": "string"
+      },
+      {
+        "description": "The Sentry project slug (empty string when unknown).",
+        "path": "project_slug",
+        "type": "string"
+      },
+      {
+        "description": "The Sentry issue id (issue alerts; empty otherwise).",
+        "path": "issue.id",
+        "type": "string"
+      },
+      {
+        "description": "The issue's web URL.",
+        "path": "issue.url",
+        "type": "string"
+      },
+      {
+        "description": "The issue title.",
+        "path": "issue.title",
+        "type": "string"
+      },
+      {
+        "description": "The code location Sentry blames.",
+        "path": "issue.culprit",
+        "type": "string"
+      },
+      {
+        "description": "The issue level (e.g. error).",
+        "path": "issue.level",
+        "type": "string"
+      },
+      {
+        "description": "The environment the event fired in.",
+        "path": "issue.environment",
+        "type": "string"
+      },
+      {
+        "description": "The release the event is on.",
+        "path": "issue.release",
+        "type": "string"
+      },
+      {
+        "description": "The triggering event's rendered stack trace, newest frame last.",
+        "path": "stack_trace",
+        "type": "string"
+      },
+      {
+        "description": "The firing alert rule's id (metric alerts; empty otherwise).",
+        "path": "alert_rule.id",
+        "type": "string"
+      },
+      {
+        "description": "The firing alert rule's name.",
+        "path": "alert_rule.name",
+        "type": "string"
+      },
+      {
+        "description": "The metric alert's title (metric alerts; empty otherwise).",
+        "path": "metric_alert.title",
+        "type": "string"
+      },
+      {
+        "description": "The metric alert's status (metric alerts; empty otherwise).",
+        "path": "metric_alert.status",
+        "type": "string"
+      }
+    ],
+    "slack_channel": [
+      {
+        "description": "The Slack workspace (team) id.",
+        "path": "team_id",
+        "type": "string"
+      },
+      {
+        "description": "The created channel's id.",
+        "path": "channel.id",
+        "type": "string"
+      },
+      {
+        "description": "The created channel's name.",
+        "path": "channel.name",
+        "type": "string"
+      },
+      {
+        "description": "The channel's purpose (empty string when unset).",
+        "path": "channel.purpose",
+        "type": "string"
+      },
+      {
+        "description": "The Slack user id of whoever created the channel.",
+        "path": "channel.creator",
+        "type": "string"
+      }
+    ]
+  },
+  "title": "TriggerFields"
+}
