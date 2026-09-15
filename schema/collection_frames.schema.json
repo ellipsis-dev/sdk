@@ -1,0 +1,4158 @@
+{
+  "$defs": {
+    "Agent": {
+      "description": "An agent: a saved agent definition that runs on its trigger or\nwhen invoked, plus where it syncs from and the state of that sync.",
+      "properties": {
+        "config": {
+          "$ref": "#/$defs/AgentConfig",
+          "description": "The agent definition itself, in the same schema as its YAML file: identity, trigger, input contract, and the session block."
+        },
+        "created_at": {
+          "description": "When the agent was created.",
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The raw ellipsis.name display text from the config file.",
+          "title": "Display Name"
+        },
+        "edited_by": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GithubAccountSnippet"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The GitHub account that last edited the agent, when the edit came from a known user."
+        },
+        "id": {
+          "description": "Unique identifier of the agent.",
+          "title": "Id",
+          "type": "string"
+        },
+        "last_session_created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When that most recent session was created.",
+          "title": "Last Session Created At"
+        },
+        "last_session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The most recent session this agent started, or null if it has never run.",
+          "title": "Last Session Id"
+        },
+        "last_sync_error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The parse or validation error from the most recent sync attempt, or null when it succeeded. A non-null value means the agent is not running the YAML currently on the branch.",
+          "title": "Last Sync Error"
+        },
+        "last_synced_commit_sha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The last commit the agent was synced from.",
+          "title": "Last Synced Commit Sha"
+        },
+        "managed_by": {
+          "$ref": "#/$defs/ConfigManagedBy",
+          "description": "Which writer owns this agent. \"github\" agents are defined by a file in a repository and are changed by editing that file; \"api\" agents have no file and are changed through this API."
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The agent's account-unique addressable name (a slug of its display name); usable anywhere an agent is referenced, interchangeably with the id.",
+          "title": "Name"
+        },
+        "pending_pull_request_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The open pull request that adds this agent's file. Non-null means the agent is not live yet: it starts running once the pull request merges and syncs.",
+          "title": "Pending Pull Request Url"
+        },
+        "sha": {
+          "description": "The definition's content identity: the version fingerprint frozen onto each session that runs it.",
+          "title": "Sha",
+          "type": "string"
+        },
+        "source_details": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GithubSourceDetails"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The repository, path, and branch the agent syncs from. Null only transiently, before the creating pull request's file lands on the branch."
+        },
+        "updated_at": {
+          "description": "When the agent was last updated.",
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "config",
+        "created_at",
+        "display_name",
+        "edited_by",
+        "id",
+        "last_session_created_at",
+        "last_session_id",
+        "last_sync_error",
+        "last_synced_commit_sha",
+        "managed_by",
+        "name",
+        "pending_pull_request_url",
+        "sha",
+        "source_details",
+        "updated_at"
+      ],
+      "title": "Agent",
+      "type": "object"
+    },
+    "AgentConfig": {
+      "additionalProperties": false,
+      "description": "A saved agent, as written in its YAML file: identity\n(`ellipsis`), when it runs (`trigger`), what goes in (`input`), and the\n`session:` block every session it starts is frozen from. Field order is\nthe canonical key order for files and `to_yaml` exports.",
+      "properties": {
+        "ellipsis": {
+          "$ref": "#/$defs/AgentIdentity"
+        },
+        "input": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InputContract"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "session": {
+          "$ref": "#/$defs/SessionConfig"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "cron": "#/$defs/CronTrigger",
+                  "react": "#/$defs/ReactTrigger"
+                },
+                "propertyName": "type"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/CronTrigger"
+                },
+                {
+                  "$ref": "#/$defs/ReactTrigger"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trigger"
+        }
+      },
+      "required": [
+        "ellipsis",
+        "input",
+        "session",
+        "trigger"
+      ],
+      "title": "AgentConfig",
+      "type": "object"
+    },
+    "AgentIdentity": {
+      "additionalProperties": false,
+      "description": "The Ellipsis product namespace for a config file: which schema this is\n(`version`), the human-facing identity (`name`/`description`), freeform\norganizational `metadata`, and whether the agent is `enabled`. The\npresence of a top-level `ellipsis:` mapping is what marks a YAML file as\nan Ellipsis agent (vs arbitrary YAML that merely lives under a\nconfig directory) \u2014 see `yaml_is_ellipsis_config`.\n\n`enabled` is agent behavior, not freeform metadata, so it stays inside\nthe config `sha` (only `metadata` is sha-excluded). Whether a session\naccepts messages is a per-run choice (POST /v1/sessions `interactive`),\nnot a config one.",
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "kind": {
+          "const": "agent",
+          "title": "Kind",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/$defs/ConfigMetadata",
+          "default": {
+            "annotations": {},
+            "labels": []
+          }
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "version": {
+          "default": "v1",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "enabled",
+        "kind",
+        "metadata",
+        "name",
+        "version"
+      ],
+      "title": "AgentIdentity",
+      "type": "object"
+    },
+    "AgentListStreamMessage": {
+      "properties": {
+        "agents": {
+          "items": {
+            "$ref": "#/$defs/Agent"
+          },
+          "title": "Agents",
+          "type": "array"
+        },
+        "type": {
+          "const": "agents",
+          "default": "agents",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "agents",
+        "type"
+      ],
+      "title": "AgentListStreamMessage",
+      "type": "object"
+    },
+    "AttributionType": {
+      "enum": [
+        "github_user",
+        "linear_user",
+        "slack_user",
+        "api_key"
+      ],
+      "title": "AttributionType",
+      "type": "string"
+    },
+    "BudgetConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "day": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Day"
+        },
+        "month": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Month"
+        },
+        "session": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session"
+        },
+        "week": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Week"
+        }
+      },
+      "required": [
+        "day",
+        "month",
+        "session",
+        "week"
+      ],
+      "title": "BudgetConfig",
+      "type": "object"
+    },
+    "ClaudeConfig": {
+      "additionalProperties": false,
+      "description": "Native Claude Code options for an explicitly selected harness.",
+      "properties": {
+        "effort": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EffortLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "fallback_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fallback Model"
+        },
+        "max_turns": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Turns"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "prompt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The initial user message, passed verbatim. Omit to start an interactive session idle.",
+          "title": "Prompt"
+        },
+        "settings": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SettingsRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "effort",
+        "fallback_model",
+        "max_turns",
+        "model",
+        "prompt",
+        "settings"
+      ],
+      "title": "ClaudeConfig",
+      "type": "object"
+    },
+    "CodexConfig": {
+      "additionalProperties": false,
+      "description": "Native options supported by the current Codex adapter.\n\nOptions and capabilities expand only when their runtime behavior is tested.\nUnknown options are rejected instead of silently ignored.",
+      "properties": {
+        "effort": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CodexEffortLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reasoning effort for every turn. Omit to use the model default."
+        },
+        "model": {
+          "default": "gpt-5.6-terra",
+          "title": "Model",
+          "type": "string"
+        },
+        "prompt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The initial user message, passed verbatim. Omit to start an interactive session idle.",
+          "title": "Prompt"
+        }
+      },
+      "required": [
+        "effort",
+        "model",
+        "prompt"
+      ],
+      "title": "CodexConfig",
+      "type": "object"
+    },
+    "CodexEffortLevel": {
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "title": "CodexEffortLevel",
+      "type": "string"
+    },
+    "CollectionStreamHeartbeat": {
+      "properties": {
+        "type": {
+          "const": "heartbeat",
+          "default": "heartbeat",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CollectionStreamHeartbeat",
+      "type": "object"
+    },
+    "ComputeConfig": {
+      "additionalProperties": false,
+      "description": "Sandbox compute sizing. Every field is optional; None inherits the\nplatform default (2 vCPU / 4096 MiB / 3600s \u2014 see DEFAULT_SANDBOX_* in\nmodels/ellipsis/vms/vm_execution.py). A resolved value outside the platform\nbounds fails validation loudly (a sync error on the config) rather than\nbeing clamped silently.\n\n`memory` and `timeout` each accept a shorthand string (\"8GB\", \"30m\") or an\nexplicit units object ({gb: 8}, {minutes: 30}); the `memory_mib` /\n`timeout_seconds` properties resolve either form to the canonical integer\nthe sandbox driver consumes.\n\n`timeout` is the max wall-clock the agent may run before its execution is\nstopped, capped at 1h (MAX_SANDBOX_TIMEOUT_SECONDS \u2014 equal to the default, so\ntoday the knob only shortens a session; the cap matches the 1-hour validity\nof the sandbox's GitHub token). The worker's lease/visibility heartbeat\nceiling is derived from that cap, so a run at the max stays owned by its\nworker for its whole life.\n\nCompute currently uses a temporary flat one-cent amount per allocated\nexecution, subject to the account's existing free-compute exemptions.",
+      "properties": {
+        "cpu": {
+          "anyOf": [
+            {
+              "maximum": 32,
+              "minimum": 2,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cpu"
+        },
+        "memory": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/MemorySize"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Memory"
+        },
+        "timeout": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/Duration"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout"
+        }
+      },
+      "required": [
+        "cpu",
+        "memory",
+        "timeout"
+      ],
+      "title": "ComputeConfig",
+      "type": "object"
+    },
+    "ConfigManagedBy": {
+      "description": "Which writer owns an agent: the repository file it is defined in, or\nthis API. Every agent has exactly one owner, fixed when it is created and\nchanged only by linking or unlinking it.",
+      "enum": [
+        "github",
+        "api"
+      ],
+      "title": "ConfigManagedBy",
+      "type": "string"
+    },
+    "ConfigMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "title": "Annotations",
+          "type": "object"
+        },
+        "labels": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Labels",
+          "type": "array"
+        }
+      },
+      "required": [
+        "annotations",
+        "labels"
+      ],
+      "title": "ConfigMetadata",
+      "type": "object"
+    },
+    "ConversationState": {
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "title": "ConversationState",
+      "type": "string"
+    },
+    "CronTrigger": {
+      "additionalProperties": false,
+      "properties": {
+        "schedule": {
+          "title": "Schedule",
+          "type": "string"
+        },
+        "type": {
+          "const": "cron",
+          "default": "cron",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schedule",
+        "type"
+      ],
+      "title": "CronTrigger",
+      "type": "object"
+    },
+    "Duration": {
+      "additionalProperties": false,
+      "description": "A duration as explicit units, summed. Set any of `hours`/`minutes`/\n`seconds` (at least one). The alternative to the `30m`-style shorthand\nstring wherever a duration is accepted.",
+      "properties": {
+        "hours": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hours"
+        },
+        "minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minutes"
+        },
+        "seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seconds"
+        }
+      },
+      "required": [
+        "hours",
+        "minutes",
+        "seconds"
+      ],
+      "title": "Duration",
+      "type": "object"
+    },
+    "EffortLevel": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "title": "EffortLevel",
+      "type": "string"
+    },
+    "EllipsisGrant": {
+      "additionalProperties": false,
+      "description": "One grant entry: a level, optionally narrowed to instances whose\nnatural key (a file's name, a memory's path, a secret's name, a config's\nname, a session's id) matches any of the `match` globs.",
+      "properties": {
+        "level": {
+          "$ref": "#/$defs/Level"
+        },
+        "match": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Match"
+        }
+      },
+      "required": [
+        "level",
+        "match"
+      ],
+      "title": "EllipsisGrant",
+      "type": "object"
+    },
+    "EllipsisPermissions": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Level"
+          },
+          {
+            "$ref": "#/$defs/EllipsisGrant"
+          },
+          {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Level"
+                },
+                {
+                  "$ref": "#/$defs/EllipsisGrant"
+                }
+              ]
+            },
+            "type": "array"
+          }
+        ]
+      },
+      "description": "`permissions.ellipsis` as a map: resource \u2192 level | grant | list of\ngrants. Levels are hierarchical (read < write < delete), so `write`\nincludes `read`. An unlisted resource is denied. The whole block is\nintersected with the platform's sandbox ceiling at token mint \u2014 it can\nnarrow what a sandbox token may do, never exceed it.",
+      "propertyNames": {
+        "$ref": "#/$defs/Resource"
+      },
+      "title": "EllipsisPermissions",
+      "type": "object"
+    },
+    "EnvironmentBaseBuild": {
+      "additionalProperties": false,
+      "description": "Create a reusable base, optionally using only selected repository files.",
+      "properties": {
+        "inputs": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Exact files relative to /sandbox, including the repository name. Only these files are available during build_base and their contents and modes determine reuse. Omit to use all repositories and invalidate on any source change; [] means no repository files.",
+          "title": "Inputs"
+        },
+        "run": {
+          "description": "Shell script to run in /sandbox.",
+          "minLength": 1,
+          "title": "Run",
+          "type": "string"
+        }
+      },
+      "required": [
+        "inputs",
+        "run"
+      ],
+      "title": "EnvironmentBaseBuild",
+      "type": "object"
+    },
+    "EnvironmentConfig": {
+      "additionalProperties": false,
+      "description": "Everything about the environment (the sandbox) the agent runs in: which\n`repositories` are cloned into it, which environment `variables` it gets,\nits `compute` sizing, and lifecycle `hooks`.\nWhat the agent may *do* from that environment is the top-level\n`permissions:` block, not this one.\n\nEach `variables` entry names a variable to inject; with an inline `value` it\nis hardcoded, without one it is resolved from the account's sandbox-secrets\nstore. Only the named variables reach this agent; the rest of the account's\nstored variables never do. This is how a config brings in the config and\ncredentials a custom CLI needs.",
+      "properties": {
+        "compute": {
+          "$ref": "#/$defs/ComputeConfig",
+          "default": {
+            "cpu": null,
+            "memory": null,
+            "timeout": null
+          }
+        },
+        "hooks": {
+          "$ref": "#/$defs/EnvironmentHooks",
+          "default": {
+            "after_checkout": null,
+            "before_start": null,
+            "build_base": null,
+            "post_clone": null,
+            "post_start": null
+          }
+        },
+        "mcp_servers": {
+          "default": [],
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/$defs/McpServerRef"
+              },
+              {
+                "$ref": "#/$defs/McpStdioServer"
+              },
+              {
+                "$ref": "#/$defs/McpRemoteServer"
+              }
+            ]
+          },
+          "title": "Mcp Servers",
+          "type": "array"
+        },
+        "repositories": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RepositoryRef"
+          },
+          "title": "Repositories",
+          "type": "array"
+        },
+        "variables": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EnvironmentVariable"
+          },
+          "title": "Variables",
+          "type": "array"
+        }
+      },
+      "required": [
+        "compute",
+        "hooks",
+        "mcp_servers",
+        "repositories",
+        "variables"
+      ],
+      "title": "EnvironmentConfig",
+      "type": "object"
+    },
+    "EnvironmentHooks": {
+      "additionalProperties": false,
+      "description": "Environment lifecycle scripts, in order: build_base, after_checkout,\nbefore_start. The first two produce reusable snapshots; before_start runs\nbefore an agent starts or resumes its session. Scripts run as the sandbox\nuser in /sandbox. A nonzero exit fails the session.\n\nLegacy post_start/post_clone scripts remain supported for existing configs;\nboth run after workspace preparation, before the agent starts or resumes.\nThey cannot be combined with the new lifecycle fields.",
+      "properties": {
+        "after_checkout": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnvironmentScript"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Prepare the requested source revision after Ellipsis checks out all repositories, before saving the prepared sandbox. Skipped when that prepared sandbox is reused.",
+          "title": "After Checkout"
+        },
+        "before_start": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnvironmentScript"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Run before the agent starts or resumes a session, after the sandbox is ready. This hook is not cached and adds to session startup time.",
+          "title": "Before Start"
+        },
+        "build_base": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnvironmentBaseBuild"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Build a reusable environment before full checkout. Cached by declared inputs, script, toolchain, resources, and build configuration. A string is shorthand for run with all repositories as inputs.",
+          "title": "Build Base"
+        },
+        "post_clone": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Legacy session startup script. Use before_start for session setup or after_checkout for cached source preparation.",
+          "title": "Post Clone"
+        },
+        "post_start": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Legacy session startup script. Use before_start in new configurations.",
+          "title": "Post Start"
+        }
+      },
+      "required": [
+        "after_checkout",
+        "before_start",
+        "build_base",
+        "post_clone",
+        "post_start"
+      ],
+      "title": "EnvironmentHooks",
+      "type": "object"
+    },
+    "EnvironmentScript": {
+      "additionalProperties": false,
+      "description": "An inline shell script run as the sandbox user, with /sandbox as cwd.",
+      "properties": {
+        "run": {
+          "description": "Shell script to run in /sandbox.",
+          "minLength": 1,
+          "title": "Run",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run"
+      ],
+      "title": "EnvironmentScript",
+      "type": "object"
+    },
+    "EnvironmentSource": {
+      "description": "How a session's environment was chosen. None (the field is nullable)\nwhen the config carried an inline environment block and no resolution ran \u2014\nan inline environment is not a reference, so there is nothing to record.\n\nNot derivable from the row: `environment_id` says WHICH environment, not\nhow it was chosen, and is null for the built-in basic sandbox.",
+      "enum": [
+        "request",
+        "agent",
+        "repo_default",
+        "account_default",
+        "platform_default"
+      ],
+      "title": "EnvironmentSource",
+      "type": "string"
+    },
+    "EnvironmentVariable": {
+      "additionalProperties": false,
+      "description": "One environment variable injected into the agent's sandbox.\n\n`value`, when set, is a literal injected as-is \u2014 use it for non-secret\nconfig (LOG_LEVEL, an API base URL). When `value` is omitted the value is\nresolved at run time from the account's sandbox-secrets store (dashboard\n/ `PUT /v1/secrets`) by `name`, so a secret can be injected without\never putting it in the config file. Either way the variable only reaches\nagents that name it.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "title": "EnvironmentVariable",
+      "type": "object"
+    },
+    "GithubAccountFilter": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "description": "One include-minus-exclude set of GitHub accounts: an account matches iff\nit is in `include` (`true` = all, a list = exactly those, `false`/`[]` =\nnone) AND not in `exclude`. A bare bool or list is shorthand for `include`,\nso `users: true` and `users: [priya-shah]` both parse.",
+          "properties": {
+            "exclude": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "title": "Exclude",
+              "type": "array"
+            },
+            "include": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "boolean"
+                }
+              ],
+              "default": true,
+              "title": "Include"
+            }
+          },
+          "required": [
+            "exclude",
+            "include"
+          ],
+          "title": "GithubAccountFilter",
+          "type": "object"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "GithubAccountSelector": {
+      "additionalProperties": false,
+      "description": "A selector of GitHub accounts \u2014 the `for:` audience gate on react\nsurfaces and code review pipelines, classified on the stable entity author\n(the pusher for `push`, the PR author for a review). `users` selects human\naccounts, `bots` selects bot accounts; each is a `GithubAccountFilter`\n(include minus exclude, with bare bool/list shorthand).",
+      "properties": {
+        "bots": {
+          "$ref": "#/$defs/GithubAccountFilter"
+        },
+        "users": {
+          "$ref": "#/$defs/GithubAccountFilter"
+        }
+      },
+      "required": [
+        "bots",
+        "users"
+      ],
+      "title": "GithubAccountSelector",
+      "type": "object"
+    },
+    "GithubAccountSnippet": {
+      "description": "Sometimes the GitHub API returns a user of github (can include bots)\nusing this snippet instead of the full GithubAccount model. One example,\nis when the API returns a pull request.\n\nThis is the least amount of info we need to represent a GitHub account.",
+      "properties": {
+        "avatar_url": {
+          "title": "Avatar Url",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "integer"
+        },
+        "login": {
+          "title": "Login",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/GithubAccountType"
+        }
+      },
+      "required": [
+        "avatar_url",
+        "id",
+        "login",
+        "type"
+      ],
+      "title": "GithubAccountSnippet",
+      "type": "object"
+    },
+    "GithubAccountType": {
+      "enum": [
+        "User",
+        "Organization",
+        "Bot",
+        "Mannequin"
+      ],
+      "title": "GithubAccountType",
+      "type": "string"
+    },
+    "GithubIssueEvent": {
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/IssueAction"
+        },
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionEventActor"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "repository": {
+          "title": "Repository",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "type": {
+          "const": "github.issue",
+          "default": "github.issue",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "actor",
+        "number",
+        "repository",
+        "title",
+        "type",
+        "url"
+      ],
+      "title": "GithubIssueEvent",
+      "type": "object"
+    },
+    "GithubPermissions": {
+      "additionalProperties": false,
+      "description": "The agent's GitHub access: the scope of the installation token minted for\nits sandbox \u2014 the credential `git`, `gh`, and the GitHub MCP server\nauthenticate with.\n\nBy default the token carries the installation's full permissions on all of\nthe installation's repositories. `permissions` narrows what it may do:\nthe string `read_only` grants read access to contents, issues, metadata and\npull requests; a map requests explicit levels per GitHub App permission\nscope (e.g. `{contents: read, pull_requests: write}`) and may never exceed\nwhat the installation granted. `repositories` scopes the token to exactly\nthe listed repos, by name (they must belong to the installation).\n\nRestriction is enforced by GitHub, not by Ellipsis: the token itself is\nminted with the reduced scope, so nothing running in the sandbox can\nexceed it.",
+      "properties": {
+        "permissions": {
+          "anyOf": [
+            {
+              "const": "read_only",
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Permissions"
+        },
+        "repositories": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Repositories"
+        }
+      },
+      "required": [
+        "permissions",
+        "repositories"
+      ],
+      "title": "GithubPermissions",
+      "type": "object"
+    },
+    "GithubPullRequestEvent": {
+      "properties": {
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PullRequestAction"
+            },
+            {
+              "const": "review_commented",
+              "type": "string"
+            }
+          ],
+          "title": "Action"
+        },
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionEventActor"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "repository": {
+          "title": "Repository",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "type": {
+          "const": "github.pull_request",
+          "default": "github.pull_request",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "actor",
+        "branch",
+        "number",
+        "repository",
+        "title",
+        "type",
+        "url"
+      ],
+      "title": "GithubPullRequestEvent",
+      "type": "object"
+    },
+    "GithubPushEvent": {
+      "properties": {
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionEventActor"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "after": {
+          "title": "After",
+          "type": "string"
+        },
+        "before": {
+          "title": "Before",
+          "type": "string"
+        },
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "repository": {
+          "title": "Repository",
+          "type": "string"
+        },
+        "type": {
+          "const": "github.push",
+          "default": "github.push",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "actor",
+        "after",
+        "before",
+        "branch",
+        "repository",
+        "type",
+        "url"
+      ],
+      "title": "GithubPushEvent",
+      "type": "object"
+    },
+    "GithubSourceDetails": {
+      "description": "Identifies the file a GitHub-sourced agent is synced from.\n\nKeyed on the repository ID (not owner/name) so repository and org renames\ndon't orphan the config; resolve display names from gh_repositories at\nread time.",
+      "properties": {
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "repo_id": {
+          "title": "Repo Id",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "branch",
+        "path",
+        "repo_id"
+      ],
+      "title": "GithubSourceDetails",
+      "type": "object"
+    },
+    "HandlerService": {
+      "description": "The service whose events a handler responds to.",
+      "enum": [
+        "slack",
+        "github",
+        "linear",
+        "sentry"
+      ],
+      "title": "HandlerService",
+      "type": "string"
+    },
+    "InputContract": {
+      "additionalProperties": false,
+      "description": "The typed input contract: what goes INTO a session (the trigger is\nwhen it happens; this is what goes in).\n\n`json_schema` validates customer data sent as `input` to\n`POST /v1/agents/{id}/sessions` and stored as `session.input`.\nInvocations require input when a schema is declared. React agents\ncannot declare schemas: the platform defines their event payloads.\n\n`message` is the initial-message template: exact `{{path}}` substitution\nover the caller payload (or, on a react agent, over the surface's\npublished fields), no conditionals/loops/filters. Refs are validated at\ndeploy time against the governing field set (see AgentConfig's\n`_check_input`).",
+      "properties": {
+        "json_schema": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Json Schema"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        }
+      },
+      "required": [
+        "json_schema",
+        "message"
+      ],
+      "title": "InputContract",
+      "type": "object"
+    },
+    "IssueAction": {
+      "enum": [
+        "opened",
+        "closed",
+        "commented"
+      ],
+      "title": "IssueAction",
+      "type": "string"
+    },
+    "Level": {
+      "description": "What may be done to a resource. Strictly ordered: a grant at one level\nincludes every level below it (write-only would be a phantom capability \u2014\nno real client can create what it cannot read back).",
+      "enum": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "title": "Level",
+      "type": "string"
+    },
+    "LinearIssueAction": {
+      "enum": [
+        "opened"
+      ],
+      "title": "LinearIssueAction",
+      "type": "string"
+    },
+    "LinearIssueEvent": {
+      "properties": {
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LinearIssueAction"
+            },
+            {
+              "const": "commented",
+              "type": "string"
+            }
+          ],
+          "title": "Action"
+        },
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionEventActor"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Identifier"
+        },
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "type": {
+          "const": "linear.issue",
+          "default": "linear.issue",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "actor",
+        "identifier",
+        "number",
+        "title",
+        "type",
+        "url"
+      ],
+      "title": "LinearIssueEvent",
+      "type": "object"
+    },
+    "McpRemoteServer": {
+      "additionalProperties": false,
+      "description": "A bring-your-own remote MCP server: the harness talks HTTP to `url`.\nNothing runs in the sandbox image. `headers` carry static auth (e.g.\n`Authorization: Bearer ${TOKEN}`); values may embed `${NAME}` secret\nreferences, resolved at run time from the account's secrets store.",
+      "properties": {
+        "headers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "title": "Headers",
+          "type": "object"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "headers",
+        "name",
+        "url"
+      ],
+      "title": "McpRemoteServer",
+      "type": "object"
+    },
+    "McpServerRef": {
+      "additionalProperties": false,
+      "description": "One built-in MCP server this agent opts into by name (`linear`/`slack`).\nA name reference over the connected built-in set \u2014 the platform manages the\nserver's transport and credentials. It only matters when the named\nintegration is set to `opt_in` inclusion; an integration in the default\n`all_sessions` mode is added regardless. For a server the platform does not\nprovide, define it instead (`McpStdioServer` /\n`McpRemoteServer`).",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "McpServerRef",
+      "type": "object"
+    },
+    "McpStdioServer": {
+      "additionalProperties": false,
+      "description": "A bring-your-own stdio MCP server: the harness spawns `command` inside\nthe sandbox and speaks JSON-RPC over its stdin/stdout. The command must be\nrunnable in the sandbox image \u2014 install its runtime via `hooks.build_base` /\n`hooks.after_checkout` if the managed environment lacks it.\n\n`env` values may embed `${NAME}` references, resolved at run time from the\naccount's secrets store (see `mcp_secret_refs`); everything else is passed\nliterally.",
+      "properties": {
+        "args": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Args",
+          "type": "array"
+        },
+        "command": {
+          "title": "Command",
+          "type": "string"
+        },
+        "env": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "title": "Env",
+          "type": "object"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "args",
+        "command",
+        "env",
+        "name"
+      ],
+      "title": "McpStdioServer",
+      "type": "object"
+    },
+    "MemorySize": {
+      "additionalProperties": false,
+      "description": "A memory size as explicit units, summed (binary: 1GB = 1024MB = 1024MiB).\nSet any of `gb`/`mb` (at least one). The alternative to the `8GB`-style\nshorthand string.",
+      "properties": {
+        "gb": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gb"
+        },
+        "mb": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mb"
+        }
+      },
+      "required": [
+        "gb",
+        "mb"
+      ],
+      "title": "MemorySize",
+      "type": "object"
+    },
+    "OutputConfig": {
+      "additionalProperties": false,
+      "description": "JSON Schema for the harness's structured result, when certified.",
+      "properties": {
+        "json_schema": {
+          "additionalProperties": true,
+          "title": "Json Schema",
+          "type": "object"
+        }
+      },
+      "required": [
+        "json_schema"
+      ],
+      "title": "OutputConfig",
+      "type": "object"
+    },
+    "PermissionsConfig": {
+      "additionalProperties": false,
+      "description": "What the agent is allowed to touch, per credential the platform mints\ninto its sandbox. Distinct from `environment:`, which is where the agent\nruns; this is what it may do from there.\n\n`ellipsis` scopes the sandbox's Ellipsis API token\n(`ELLIPSIS_API_TOKEN`, what the in-sandbox `agent` CLI authenticates\nwith). `true` / the string `all` (the default) grant the full sandbox\nceiling \u2014 everything a sandbox token can ever do. A map narrows it per\nresource (see `EllipsisPermissions`); the minted token carries\nthe intersection, so a config can only ever reduce access. `false` fails\nvalidation \u2014 an agent with no API token cannot report its own progress.\n\n`github` scopes the sandbox's GitHub installation token (`GH_TOKEN`) \u2014\nsee `GithubPermissions`. GitHub enforces it at mint time.",
+      "properties": {
+        "ellipsis": {
+          "anyOf": [
+            {
+              "enum": [
+                true,
+                "all"
+              ]
+            },
+            {
+              "$ref": "#/$defs/EllipsisPermissions"
+            }
+          ],
+          "default": true,
+          "title": "Ellipsis"
+        },
+        "github": {
+          "$ref": "#/$defs/GithubPermissions",
+          "default": {
+            "permissions": null,
+            "repositories": null
+          }
+        }
+      },
+      "required": [
+        "ellipsis",
+        "github"
+      ],
+      "title": "PermissionsConfig",
+      "type": "object"
+    },
+    "PromptBlockedReason": {
+      "description": "Why direct prompting is refused. Absent when prompting is allowed.",
+      "enum": [
+        "mention_surface",
+        "ephemeral_trigger",
+        "non_interactive",
+        "harness_single_turn",
+        "closed"
+      ],
+      "title": "PromptBlockedReason",
+      "type": "string"
+    },
+    "PullRequestAction": {
+      "enum": [
+        "opened",
+        "pushed",
+        "merged",
+        "closed",
+        "review_submitted",
+        "commented"
+      ],
+      "title": "PullRequestAction",
+      "type": "string"
+    },
+    "ReactIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "for": {
+          "$ref": "#/$defs/GithubAccountSelector"
+        },
+        "labels": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Labels",
+          "type": "array"
+        },
+        "on": {
+          "items": {
+            "$ref": "#/$defs/IssueAction"
+          },
+          "title": "On",
+          "type": "array"
+        },
+        "repositories": {
+          "$ref": "#/$defs/RepositoryFilter"
+        }
+      },
+      "required": [
+        "for",
+        "labels",
+        "on",
+        "repositories"
+      ],
+      "title": "ReactIssue",
+      "type": "object"
+    },
+    "ReactLinearIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "for": {
+          "$ref": "#/$defs/GithubAccountSelector"
+        },
+        "on": {
+          "default": [
+            "opened"
+          ],
+          "items": {
+            "$ref": "#/$defs/LinearIssueAction"
+          },
+          "title": "On",
+          "type": "array"
+        }
+      },
+      "required": [
+        "for",
+        "on"
+      ],
+      "title": "ReactLinearIssue",
+      "type": "object"
+    },
+    "ReactPullRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "base": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Base",
+          "type": "array"
+        },
+        "draft": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Draft"
+        },
+        "for": {
+          "$ref": "#/$defs/GithubAccountSelector"
+        },
+        "head": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Head",
+          "type": "array"
+        },
+        "labels": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Labels",
+          "type": "array"
+        },
+        "on": {
+          "items": {
+            "$ref": "#/$defs/PullRequestAction"
+          },
+          "title": "On",
+          "type": "array"
+        },
+        "paths": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Paths",
+          "type": "array"
+        },
+        "repositories": {
+          "$ref": "#/$defs/RepositoryFilter"
+        }
+      },
+      "required": [
+        "base",
+        "draft",
+        "for",
+        "head",
+        "labels",
+        "on",
+        "paths",
+        "repositories"
+      ],
+      "title": "ReactPullRequest",
+      "type": "object"
+    },
+    "ReactPush": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Branch",
+          "type": "array"
+        },
+        "for": {
+          "$ref": "#/$defs/GithubAccountSelector"
+        },
+        "paths": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Paths",
+          "type": "array"
+        },
+        "repositories": {
+          "$ref": "#/$defs/RepositoryFilter"
+        }
+      },
+      "required": [
+        "branch",
+        "for",
+        "paths",
+        "repositories"
+      ],
+      "title": "ReactPush",
+      "type": "object"
+    },
+    "ReactSentry": {
+      "additionalProperties": false,
+      "properties": {
+        "on": {
+          "items": {
+            "$ref": "#/$defs/SentryAction"
+          },
+          "title": "On",
+          "type": "array"
+        },
+        "projects": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Projects",
+          "type": "array"
+        }
+      },
+      "required": [
+        "on",
+        "projects"
+      ],
+      "title": "ReactSentry",
+      "type": "object"
+    },
+    "ReactSlackChannel": {
+      "additionalProperties": false,
+      "properties": {},
+      "title": "ReactSlackChannel",
+      "type": "object"
+    },
+    "ReactTrigger": {
+      "additionalProperties": false,
+      "properties": {
+        "issue": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReactIssue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "linear_issue": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReactLinearIssue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "pull_request": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReactPullRequest"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "push": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReactPush"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sentry": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReactSentry"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "slack_channel": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReactSlackChannel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "react",
+          "default": "react",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issue",
+        "linear_issue",
+        "pull_request",
+        "push",
+        "sentry",
+        "slack_channel",
+        "type"
+      ],
+      "title": "ReactTrigger",
+      "type": "object"
+    },
+    "RepositoryFilter": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "description": "The watch scope of a trigger, by repository name (owner defaults to the\naccount). Include minus exclude: `include: []` (the default) covers every\nrepository of the installation, so `exclude`-only means \"all except these\"\nand keeps covering repositories added to the org later. A bare list is\nshorthand for `include`.",
+          "properties": {
+            "exclude": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "title": "Exclude",
+              "type": "array"
+            },
+            "include": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "title": "Include",
+              "type": "array"
+            }
+          },
+          "required": [
+            "exclude",
+            "include"
+          ],
+          "title": "RepositoryFilter",
+          "type": "object"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "RepositoryRef": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Owner"
+        },
+        "ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ref"
+        }
+      },
+      "required": [
+        "name",
+        "owner",
+        "ref"
+      ],
+      "title": "RepositoryRef",
+      "type": "object"
+    },
+    "Resource": {
+      "description": "Everything a credential can be granted access to, one value per /v1\nresource family. `TOKENS` is reserved for the future token-management\nroutes; nothing maps to it yet.",
+      "enum": [
+        "account",
+        "alerts",
+        "sessions",
+        "files",
+        "memories",
+        "reviews",
+        "configs",
+        "defaults",
+        "environments",
+        "secrets",
+        "templates",
+        "integrations",
+        "tokens",
+        "webhooks",
+        "user"
+      ],
+      "title": "Resource",
+      "type": "string"
+    },
+    "SandboxCacheTier": {
+      "description": "Which image-cache tier a sandbox creation took \u2014 the customer-facing\nnames for `create_sandbox_from_default`'s exact / latest / default tiers.\nRides on `Sandbox.cache_tier` and the sandbox_ready lifecycle record.",
+      "enum": [
+        "exact",
+        "incremental",
+        "full"
+      ],
+      "title": "SandboxCacheTier",
+      "type": "string"
+    },
+    "SandboxPort": {
+      "properties": {
+        "port": {
+          "title": "Port",
+          "type": "integer"
+        },
+        "tcp_host": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tcp Host"
+        },
+        "tcp_port": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tcp Port"
+        },
+        "tls_host": {
+          "title": "Tls Host",
+          "type": "string"
+        },
+        "tls_port": {
+          "title": "Tls Port",
+          "type": "integer"
+        },
+        "tunnel_url": {
+          "title": "Tunnel Url",
+          "type": "string"
+        },
+        "unencrypted_host": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unencrypted Host"
+        },
+        "unencrypted_port": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unencrypted Port"
+        }
+      },
+      "required": [
+        "port",
+        "tcp_host",
+        "tcp_port",
+        "tls_host",
+        "tls_port",
+        "tunnel_url",
+        "unencrypted_host",
+        "unencrypted_port"
+      ],
+      "title": "SandboxPort",
+      "type": "object"
+    },
+    "SandboxRepository": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "owner_id": {
+          "title": "Owner Id",
+          "type": "integer"
+        },
+        "owner_name": {
+          "title": "Owner Name",
+          "type": "string"
+        },
+        "sha": {
+          "title": "Sha",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "owner_id",
+        "owner_name",
+        "sha"
+      ],
+      "title": "SandboxRepository",
+      "type": "object"
+    },
+    "SandboxSnapshotFrame": {
+      "properties": {
+        "sandbox": {
+          "$ref": "#/$defs/VMExecutionResponse"
+        },
+        "type": {
+          "const": "snapshot",
+          "default": "snapshot",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sandbox",
+        "type"
+      ],
+      "title": "SandboxSnapshotFrame",
+      "type": "object"
+    },
+    "SandboxSource": {
+      "enum": [
+        "cli",
+        "web_ui",
+        "ingest_pull_request_job_run",
+        "session",
+        "image_refresh",
+        "test",
+        "script"
+      ],
+      "title": "SandboxSource",
+      "type": "string"
+    },
+    "SandboxStatus": {
+      "enum": [
+        "scheduled",
+        "building",
+        "running",
+        "released",
+        "terminating",
+        "terminated",
+        "failed"
+      ],
+      "title": "SandboxStatus",
+      "type": "string"
+    },
+    "SandboxType": {
+      "enum": [
+        "claude_code"
+      ],
+      "title": "SandboxType",
+      "type": "string"
+    },
+    "SandboxUpdateFrame": {
+      "properties": {
+        "sandbox": {
+          "$ref": "#/$defs/VMExecutionResponse"
+        },
+        "type": {
+          "const": "sandbox",
+          "default": "sandbox",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sandbox",
+        "type"
+      ],
+      "title": "SandboxUpdateFrame",
+      "type": "object"
+    },
+    "SentryAction": {
+      "enum": [
+        "issue_alert",
+        "metric_alert"
+      ],
+      "title": "SentryAction",
+      "type": "string"
+    },
+    "SentryAlertEvent": {
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/SentryAction"
+        },
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionEventActor"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "organization_slug": {
+          "title": "Organization Slug",
+          "type": "string"
+        },
+        "project_slug": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Project Slug"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "type": {
+          "const": "sentry.alert",
+          "default": "sentry.alert",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "action",
+        "actor",
+        "organization_slug",
+        "project_slug",
+        "title",
+        "type",
+        "url"
+      ],
+      "title": "SentryAlertEvent",
+      "type": "object"
+    },
+    "Session": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "claude_code": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "codex": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "claude_code",
+                "codex"
+              ]
+            },
+            {
+              "properties": {
+                "claude_code": {
+                  "type": "null"
+                },
+                "codex": {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              },
+              "required": [
+                "claude_code",
+                "codex"
+              ]
+            }
+          ]
+        }
+      ],
+      "description": "An agent session: one conversation with an agent, from trigger to\nterminal state. Returned by `GET /v1/sessions/{id}` and carried by the\nsession stream's `session`/`snapshot` frames \u2014 REST and stream never\ndisagree about what a session looks like.",
+      "properties": {
+        "agent": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionAgent"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The agent the session was started from, or null for a raw session started with POST /v1/sessions."
+        },
+        "attribution": {
+          "$ref": "#/$defs/SessionAttribution",
+          "description": "The principal this session is attributed to."
+        },
+        "budget": {
+          "default": 0,
+          "description": "The spend budget enforced for this session, in US dollars, after resolving defaults and ceilings.",
+          "title": "Budget",
+          "type": "number"
+        },
+        "claude_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClaudeConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Claude Code input and native options. Set exactly one of claude_code or codex."
+        },
+        "codex": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CodexConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Codex input and native options. Set exactly one of claude_code or codex."
+        },
+        "cost": {
+          "$ref": "#/$defs/SessionCost",
+          "description": "What the session cost, in millicents, broken down by leg and carrying its own total."
+        },
+        "environment": {
+          "$ref": "#/$defs/SessionEnvironment",
+          "description": "The full environment configuration frozen when the session was created, with the saved environment's id and how it was chosen."
+        },
+        "event": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "github.issue": "#/$defs/GithubIssueEvent",
+                  "github.pull_request": "#/$defs/GithubPullRequestEvent",
+                  "github.push": "#/$defs/GithubPushEvent",
+                  "linear.issue": "#/$defs/LinearIssueEvent",
+                  "sentry.alert": "#/$defs/SentryAlertEvent",
+                  "slack.channel_created": "#/$defs/SlackChannelCreatedEvent",
+                  "slack.message": "#/$defs/SlackMessageEvent"
+                },
+                "propertyName": "type"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/GithubPullRequestEvent"
+                },
+                {
+                  "$ref": "#/$defs/GithubIssueEvent"
+                },
+                {
+                  "$ref": "#/$defs/GithubPushEvent"
+                },
+                {
+                  "$ref": "#/$defs/LinearIssueEvent"
+                },
+                {
+                  "$ref": "#/$defs/SlackMessageEvent"
+                },
+                {
+                  "$ref": "#/$defs/SlackChannelCreatedEvent"
+                },
+                {
+                  "$ref": "#/$defs/SentryAlertEvent"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The typed external event that started the session; null for direct and scheduled starts.",
+          "title": "Event"
+        },
+        "git": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionGit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "What the session did to git, one entry per repository in its workspace: the commit and branch it sits on, per-file line counts for its uncommitted changes, and the pull requests it opened. Null if nothing was ever captured."
+        },
+        "handler": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionHandler"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The saved handler and its effective display name when this session started, frozen at creation. Null for built-in responders, legacy sessions, and sessions started without a handler."
+        },
+        "id": {
+          "description": "Unique identifier of the session.",
+          "title": "Id",
+          "type": "string"
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/SessionLifecycle",
+          "description": "The session's activity, conversation state, messaging policy, outcomes, and timestamps."
+        },
+        "metadata": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "description": "Caller-supplied metadata key-value pairs.",
+          "title": "Metadata",
+          "type": "object"
+        },
+        "output": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OutputConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The structured-output exit contract for this session."
+        },
+        "parent": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionParent"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The predecessor session this session continues; null when there is none."
+        },
+        "permissions": {
+          "$ref": "#/$defs/PermissionsConfig",
+          "description": "What the session may touch, per minted credential."
+        },
+        "skills": {
+          "description": "Skills installed for this session.",
+          "items": {
+            "$ref": "#/$defs/SkillRef"
+          },
+          "title": "Skills",
+          "type": "array"
+        },
+        "source": {
+          "$ref": "#/$defs/SessionSource",
+          "description": "Where the session came from (e.g. react, web, api, cli, mention, cron)."
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionSummary"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The latest live summary of the session's progress while it runs, and when it was generated."
+        },
+        "tokens": {
+          "$ref": "#/$defs/SessionTokens",
+          "description": "The tokens the session spent and the model they went to. `total` includes the prompt-cache lanes."
+        }
+      },
+      "required": [
+        "agent",
+        "attribution",
+        "budget",
+        "claude_code",
+        "codex",
+        "cost",
+        "environment",
+        "event",
+        "git",
+        "handler",
+        "id",
+        "lifecycle",
+        "metadata",
+        "output",
+        "parent",
+        "permissions",
+        "skills",
+        "source",
+        "summary",
+        "tokens"
+      ],
+      "title": "Session",
+      "type": "object"
+    },
+    "SessionAgent": {
+      "description": "The agent this session was started from: the definition frozen\nwhen the session was created, and the saved agent it came from as it\nexists NOW. They diverge legitimately \u2014 a YAML edit after the session\nstarted leaves the pointer describing something the session never ran.",
+      "properties": {
+        "config": {
+          "$ref": "#/$defs/AgentConfig",
+          "description": "The agent definition the session was started from, frozen when the session was created."
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Identifier of the saved agent this session's snapshot was taken from. Null for a routing-file agent, a code-review stage agent, or the built-in mention agent, which have no saved agent behind them. Points at the agent as it exists now, which may have changed since.",
+          "title": "Id"
+        }
+      },
+      "required": [
+        "config",
+        "id"
+      ],
+      "title": "SessionAgent",
+      "type": "object"
+    },
+    "SessionArchived": {
+      "description": "When the session was archived and the GitHub user who archived it.",
+      "properties": {
+        "at": {
+          "description": "When the session was archived.",
+          "format": "date-time",
+          "title": "At",
+          "type": "string"
+        },
+        "by": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GithubAccountSnippet"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The GitHub user who archived the session; null if unknown or unavailable."
+        }
+      },
+      "required": [
+        "at",
+        "by"
+      ],
+      "title": "SessionArchived",
+      "type": "object"
+    },
+    "SessionAttribution": {
+      "description": "The principal a session is attributed to: what kind, its id, and \u2014 when\nthe kind is a GitHub user \u2014 the resolved display snippet.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Identifier of the principal the session is attributed to.",
+          "title": "Id"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AttributionType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Kind of principal the session is attributed to (e.g. a GitHub user or an API key)."
+        },
+        "user": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GithubAccountSnippet"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The GitHub user the session is attributed to, resolved at read time. Null when the attribution is not a GitHub user."
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "user"
+      ],
+      "title": "SessionAttribution",
+      "type": "object"
+    },
+    "SessionConfig": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "claude_code": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "codex": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "claude_code",
+                "codex"
+              ]
+            },
+            {
+              "properties": {
+                "claude_code": {
+                  "type": "null"
+                },
+                "codex": {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              },
+              "required": [
+                "claude_code",
+                "codex"
+              ]
+            }
+          ]
+        }
+      ],
+      "description": "What one session runs on: its selected harness, where it runs, what it\nmay touch, its skills, its exit contract, and its spend cap. Every session\nfreezes one of these (`sessions.session_config`); an agent\ncarries one under `session:` (`AgentConfig.session`); and\n`POST /v1/sessions` is this shape flattened onto the request body, plus the\nrun settings. Nothing in here is an agent's identity or trigger \u2014\nthose belong to `AgentConfig`.\n\nField order is the canonical key order for `session:` blocks and YAML\nexports: what runs (`claude_code` or `codex`), where (`environment`), what it may\ntouch (`permissions`), then the rest.",
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/BudgetConfig",
+          "default": {
+            "day": null,
+            "month": null,
+            "session": null,
+            "week": null
+          }
+        },
+        "claude_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClaudeConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Claude Code input and native options. Set exactly one of claude_code or codex."
+        },
+        "codex": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CodexConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Codex input and native options. Set exactly one of claude_code or codex."
+        },
+        "environment": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/EnvironmentConfig"
+            }
+          ],
+          "default": {
+            "compute": {
+              "cpu": null,
+              "memory": null,
+              "timeout": null
+            },
+            "hooks": {
+              "after_checkout": null,
+              "before_start": null,
+              "build_base": null,
+              "post_clone": null,
+              "post_start": null
+            },
+            "mcp_servers": [],
+            "repositories": [],
+            "variables": []
+          },
+          "title": "Environment"
+        },
+        "output": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OutputConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "permissions": {
+          "$ref": "#/$defs/PermissionsConfig",
+          "default": {
+            "ellipsis": true,
+            "github": {
+              "permissions": null,
+              "repositories": null
+            }
+          }
+        },
+        "skills": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SkillRef"
+          },
+          "title": "Skills",
+          "type": "array"
+        }
+      },
+      "required": [
+        "budget",
+        "claude_code",
+        "codex",
+        "environment",
+        "output",
+        "permissions",
+        "skills"
+      ],
+      "title": "SessionConfig",
+      "type": "object"
+    },
+    "SessionCost": {
+      "description": "What a session (or one turn of it) cost, in millicents.\n\n`llm` is deliberately NOT called `tokens`: it would sit beside the `tokens`\nobject and read as \"the token count's cost\" rather than \"the cost of the\nLLM leg\".",
+      "properties": {
+        "cpu": {
+          "default": 0,
+          "description": "Sandbox CPU spend in millicents.",
+          "title": "Cpu",
+          "type": "integer"
+        },
+        "fee": {
+          "default": 0,
+          "description": "Platform fee in millicents.",
+          "title": "Fee",
+          "type": "integer"
+        },
+        "llm": {
+          "default": 0,
+          "description": "LLM spend in millicents.",
+          "title": "Llm",
+          "type": "integer"
+        },
+        "memory": {
+          "default": 0,
+          "description": "Sandbox memory spend in millicents.",
+          "title": "Memory",
+          "type": "integer"
+        },
+        "total": {
+          "default": 0,
+          "description": "The grand total in millicents: llm + cpu + memory + fee.",
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cpu",
+        "fee",
+        "llm",
+        "memory",
+        "total"
+      ],
+      "title": "SessionCost",
+      "type": "object"
+    },
+    "SessionEnvironment": {
+      "additionalProperties": false,
+      "description": "The environment configuration frozen at session creation, enriched with\nthe saved environment's identity and how it was chosen.",
+      "properties": {
+        "compute": {
+          "$ref": "#/$defs/ComputeConfig",
+          "default": {
+            "cpu": null,
+            "memory": null,
+            "timeout": null
+          }
+        },
+        "hooks": {
+          "$ref": "#/$defs/EnvironmentHooks",
+          "default": {
+            "after_checkout": null,
+            "before_start": null,
+            "build_base": null,
+            "post_clone": null,
+            "post_start": null
+          }
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Identifier of the saved environment the session's config resolved. Null for an inline environment block or the built-in basic sandbox.",
+          "title": "Id"
+        },
+        "mcp_servers": {
+          "default": [],
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/$defs/McpServerRef"
+              },
+              {
+                "$ref": "#/$defs/McpStdioServer"
+              },
+              {
+                "$ref": "#/$defs/McpRemoteServer"
+              }
+            ]
+          },
+          "title": "Mcp Servers",
+          "type": "array"
+        },
+        "repositories": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RepositoryRef"
+          },
+          "title": "Repositories",
+          "type": "array"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnvironmentSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "How the environment was chosen (request, agent, platform_default; repo_default and account_default on sessions from before those ladders were removed). An inline request uses request; an inline environment declared in session configuration has no source."
+        },
+        "variables": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EnvironmentVariable"
+          },
+          "title": "Variables",
+          "type": "array"
+        }
+      },
+      "required": [
+        "compute",
+        "hooks",
+        "id",
+        "mcp_servers",
+        "repositories",
+        "source",
+        "variables"
+      ],
+      "title": "SessionEnvironment",
+      "type": "object"
+    },
+    "SessionEventActor": {
+      "description": "The event's initiator, when known; never inferred from resource ownership.",
+      "properties": {
+        "avatar_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Avatar Url"
+        },
+        "is_bot": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Bot"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "avatar_url",
+        "is_bot",
+        "name"
+      ],
+      "title": "SessionEventActor",
+      "type": "object"
+    },
+    "SessionExecutionResult": {
+      "description": "Outcome of the last finished execution, retained across subsequent resumes.\n\nAn execution spans a start or resume through parking or termination, and may\ncontain several turns. Admission failures also produce a result, even when\nprovisioning never starts.",
+      "properties": {
+        "completion_reason": {
+          "$ref": "#/$defs/SessionExitStatus",
+          "description": "Why the last execution ended; completed also includes parking an open conversation."
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Human-readable explanation of that outcome.",
+          "title": "Detail"
+        }
+      },
+      "required": [
+        "completion_reason",
+        "detail"
+      ],
+      "title": "SessionExecutionResult",
+      "type": "object"
+    },
+    "SessionExitStatus": {
+      "description": "Why a terminal agent session ended \u2014 a finer-grained reason than `status`.\n\n`status` (SessionStatus) is the lifecycle state: COMPLETED / ERROR /\nCANCELLED. `exit_status` explains *why* a run reached that terminal state, so\nthe UI and metrics can tell a budget cutoff apart from a crashed tool call or\na deliberate cancellation. It is None until the run reaches a terminal state.",
+      "enum": [
+        "completed",
+        "budget_hit",
+        "payment_required",
+        "tool_call_failed",
+        "lifecycle_hook_failed",
+        "missing_repo_access",
+        "missing_token_permissions",
+        "missing_sandbox_variables",
+        "blocked",
+        "contact_email_required",
+        "cancelled",
+        "interrupted",
+        "error",
+        "stopped"
+      ],
+      "title": "SessionExitStatus",
+      "type": "string"
+    },
+    "SessionGit": {
+      "description": "Every repo the session touched. Small enough to ride on `sessions`\nand be returned by every session read.",
+      "properties": {
+        "repos": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SessionGitRepo"
+          },
+          "title": "Repos",
+          "type": "array"
+        }
+      },
+      "required": [
+        "repos"
+      ],
+      "title": "SessionGit",
+      "type": "object"
+    },
+    "SessionGitCommit": {
+      "description": "One commit the session created in this repo (everything past the\nprovisioning checkout's sha), captured from the sandbox rather than the\ntranscript so it stays correct through amends, rebases, and commits made by\nscripts. The repo is the parent object, so it is not repeated here.",
+      "properties": {
+        "committed_at": {
+          "format": "date-time",
+          "title": "Committed At",
+          "type": "string"
+        },
+        "pushed": {
+          "title": "Pushed",
+          "type": "boolean"
+        },
+        "sha": {
+          "title": "Sha",
+          "type": "string"
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string"
+        }
+      },
+      "required": [
+        "committed_at",
+        "pushed",
+        "sha",
+        "subject"
+      ],
+      "title": "SessionGitCommit",
+      "type": "object"
+    },
+    "SessionGitFile": {
+      "description": "One file's uncommitted change, as `git diff HEAD --numstat` reports it\n(with intent-to-add, so a brand-new file still counts).",
+      "properties": {
+        "additions": {
+          "title": "Additions",
+          "type": "integer"
+        },
+        "deletions": {
+          "title": "Deletions",
+          "type": "integer"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "additions",
+        "deletions",
+        "path",
+        "status"
+      ],
+      "title": "SessionGitFile",
+      "type": "object"
+    },
+    "SessionGitPr": {
+      "description": "A pull request the session opened in this repo, written the moment the\ncreating tool call's result lands (see extract_session_prs.PrCreateWatcher).\nLive PR state (open/merged/closed) is not stored \u2014 it lives on gh_prs,\njoined via `gh_pr_id` (GET /frontend/agents/sessions/{id}/git). The repo is\nthe parent object, so it is not repeated here.",
+      "properties": {
+        "gh_pr_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gh Pr Id"
+        },
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "gh_pr_id",
+        "number",
+        "title",
+        "url"
+      ],
+      "title": "SessionGitPr",
+      "type": "object"
+    },
+    "SessionGitRepo": {
+      "description": "One checkout in the session's sandbox and everything the session did to\nit, split by whether it survived the sandbox.",
+      "properties": {
+        "commits": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SessionGitCommit"
+          },
+          "title": "Commits",
+          "type": "array"
+        },
+        "commits_total": {
+          "default": 0,
+          "title": "Commits Total",
+          "type": "integer"
+        },
+        "full_name": {
+          "title": "Full Name",
+          "type": "string"
+        },
+        "local_commit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Commit"
+        },
+        "local_uncommitted_files": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SessionGitFile"
+          },
+          "title": "Local Uncommitted Files",
+          "type": "array"
+        },
+        "prs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SessionGitPr"
+          },
+          "title": "Prs",
+          "type": "array"
+        },
+        "remote_branch": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Branch"
+        },
+        "remote_commit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Commit"
+        }
+      },
+      "required": [
+        "commits",
+        "commits_total",
+        "full_name",
+        "local_commit",
+        "local_uncommitted_files",
+        "prs",
+        "remote_branch",
+        "remote_commit"
+      ],
+      "title": "SessionGitRepo",
+      "type": "object"
+    },
+    "SessionHandler": {
+      "description": "The saved handler and its display name when the session started.",
+      "properties": {
+        "agent_name": {
+          "description": "The handler's effective display name when the session started: ellipsis.name, or the service default (Slack, GitHub, Linear, or sentry).",
+          "minLength": 1,
+          "title": "Agent Name",
+          "type": "string"
+        },
+        "id": {
+          "description": "Identifier of the saved handler.",
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "service": {
+          "$ref": "#/$defs/HandlerService",
+          "description": "The service the handler responds to."
+        },
+        "sha": {
+          "description": "Content fingerprint of the validated handler configuration used when the session started. This is not the Git commit SHA.",
+          "minLength": 1,
+          "title": "Sha",
+          "type": "string"
+        }
+      },
+      "required": [
+        "agent_name",
+        "id",
+        "service",
+        "sha"
+      ],
+      "title": "SessionHandler",
+      "type": "object"
+    },
+    "SessionLifecycle": {
+      "description": "Current activity, conversation state, messaging policy, and lifecycle history.",
+      "properties": {
+        "archived": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionArchived"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When and by whom the session was archived; null when unarchived. Archiving does not stop or close a session."
+        },
+        "conversation": {
+          "$ref": "#/$defs/ConversationState",
+          "description": "Whether the conversation is open or permanently closed. Open does not imply direct messages are permitted."
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Explanation of the current status, when applicable.",
+          "title": "Detail"
+        },
+        "interactive": {
+          "description": "Whether the session stays open after its first turn.",
+          "title": "Interactive",
+          "type": "boolean"
+        },
+        "last_execution_result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionExecutionResult"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The last finished execution's outcome, retained across resumes; null until an outcome has been recorded."
+        },
+        "prompting": {
+          "$ref": "#/$defs/SessionPrompting",
+          "description": "The session's policy for direct messages. Caller authorization and message validation are checked separately."
+        },
+        "status": {
+          "$ref": "#/$defs/SessionLifecycleStatus",
+          "description": "Canonical current activity. working means a turn is in progress; waiting means the worker is warm and awaiting input; idle means parked. A failed, stopped, or cancelled execution may leave an open conversation."
+        },
+        "stopped": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionStopped"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When and by whom a stop was requested; null when no stop is pending for this execution."
+        },
+        "timestamps": {
+          "$ref": "#/$defs/SessionTimestamps"
+        }
+      },
+      "required": [
+        "archived",
+        "conversation",
+        "detail",
+        "interactive",
+        "last_execution_result",
+        "prompting",
+        "status",
+        "stopped",
+        "timestamps"
+      ],
+      "title": "SessionLifecycle",
+      "type": "object"
+    },
+    "SessionLifecycleStatus": {
+      "enum": [
+        "scheduled",
+        "starting",
+        "working",
+        "waiting",
+        "retrying",
+        "idle",
+        "closed",
+        "failed",
+        "stopped",
+        "cancelled"
+      ],
+      "title": "SessionLifecycleStatus",
+      "type": "string"
+    },
+    "SessionListStreamMessage": {
+      "properties": {
+        "session": {
+          "$ref": "#/$defs/Session"
+        },
+        "type": {
+          "const": "session",
+          "default": "session",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session",
+        "type"
+      ],
+      "title": "SessionListStreamMessage",
+      "type": "object"
+    },
+    "SessionParent": {
+      "description": "The predecessor session this session continues.",
+      "properties": {
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Identifier of the predecessor session this session continues, if any.",
+          "title": "Session Id"
+        }
+      },
+      "required": [
+        "session_id"
+      ],
+      "title": "SessionParent",
+      "type": "object"
+    },
+    "SessionPrompting": {
+      "description": "The prompt-affordance projection. `enabled` answers \"would a send work\",\nand when it wouldn't, `blocked_reason` + `detail` say why.\n\n`surface_name` is set only for MENTION_SURFACE, naming where to reply.",
+      "properties": {
+        "blocked_reason": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PromptBlockedReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "surface_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Surface Name"
+        }
+      },
+      "required": [
+        "blocked_reason",
+        "detail",
+        "enabled",
+        "surface_name"
+      ],
+      "title": "SessionPrompting",
+      "type": "object"
+    },
+    "SessionSource": {
+      "description": "Where a session came from: the credential that started it (web app,\nAPI key, CLI) or the trigger that fired (react, mention, cron). Never\ntaken from a request body.",
+      "enum": [
+        "react",
+        "web",
+        "api",
+        "cli",
+        "mention",
+        "cron"
+      ],
+      "title": "SessionSource",
+      "type": "string"
+    },
+    "SessionStopped": {
+      "description": "When a stop was requested and the GitHub user who requested it.",
+      "properties": {
+        "at": {
+          "description": "When a stop was requested.",
+          "format": "date-time",
+          "title": "At",
+          "type": "string"
+        },
+        "by": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GithubAccountSnippet"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The GitHub user who stopped the session, resolved at read time. Null if the user is unknown or unavailable."
+        }
+      },
+      "required": [
+        "at",
+        "by"
+      ],
+      "title": "SessionStopped",
+      "type": "object"
+    },
+    "SessionSummary": {
+      "description": "A live one-line summary of what the session is working on, refreshed\nevery few steps while it runs.",
+      "properties": {
+        "created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When this summary line was generated. Null on summaries written before generation time was tracked.",
+          "title": "Created At"
+        },
+        "description": {
+          "description": "One-line description of what the session is working on.",
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "created_at",
+        "description"
+      ],
+      "title": "SessionSummary",
+      "type": "object"
+    },
+    "SessionTimestamps": {
+      "properties": {
+        "created_at": {
+          "description": "When the session was created.",
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "last_activity_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When the session last showed agent activity.",
+          "title": "Last Activity At"
+        },
+        "last_message_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When the session last received a message.",
+          "title": "Last Message At"
+        },
+        "updated_at": {
+          "description": "When the session was last updated.",
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "created_at",
+        "last_activity_at",
+        "last_message_at",
+        "updated_at"
+      ],
+      "title": "SessionTimestamps",
+      "type": "object"
+    },
+    "SessionTokens": {
+      "description": "The token counts a session (or turn) spent, and the model they went to.\n\n`total` INCLUDES the cache lanes, unlike the old flat `tokens_total` which\ncounted input+output+thinking only and left callers to add cache reads and\nwrites back themselves (the deleted `tokensTotalAll` helper). Cache tokens\ndominate an agent run's token bill, so a \"total\" that omits them is the\nwrong default and produced two competing totals in the dashboard.",
+      "properties": {
+        "cache_creation": {
+          "default": 0,
+          "description": "Tokens written to the prompt cache.",
+          "title": "Cache Creation",
+          "type": "integer"
+        },
+        "cache_read": {
+          "default": 0,
+          "description": "Tokens read from the prompt cache.",
+          "title": "Cache Read",
+          "type": "integer"
+        },
+        "input": {
+          "default": 0,
+          "description": "Input tokens used.",
+          "title": "Input",
+          "type": "integer"
+        },
+        "model": {
+          "default": "",
+          "description": "The model the token counts are attributed to.",
+          "title": "Model",
+          "type": "string"
+        },
+        "output": {
+          "default": 0,
+          "description": "Output tokens used.",
+          "title": "Output",
+          "type": "integer"
+        },
+        "total": {
+          "default": 0,
+          "description": "Total tokens consumed, INCLUDING the prompt-cache reads and writes \u2014 the same basis the token cost is priced on.",
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cache_creation",
+        "cache_read",
+        "input",
+        "model",
+        "output",
+        "total"
+      ],
+      "title": "SessionTokens",
+      "type": "object"
+    },
+    "SettingsRef": {
+      "additionalProperties": false,
+      "description": "A config-declared Claude Code settings.json, resolved at run start and\npassed to `claude --settings <path>`. That is the CLI settings tier \u2014 BELOW\nEllipsis's managed-settings.json floor \u2014 so it customizes behavior (model\npermissions, includeCoAuthoredBy, statusLine, ...) but can never weaken a\nsecurity setting. Lets a team point the cloud agent at the same settings file\nthey already use with Claude Code locally instead of re-encoding it as YAML.",
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "repository": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RepositoryRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "path",
+        "repository"
+      ],
+      "title": "SettingsRef",
+      "type": "object"
+    },
+    "SkillRef": {
+      "additionalProperties": false,
+      "description": "A repository directory containing SKILL.md and supporting UTF-8 files.\nResolved at run start and installed in the selected harness's skill directory.\nExplicit skill references require a model with the skills capability.",
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "repository": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RepositoryRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "path",
+        "repository"
+      ],
+      "title": "SkillRef",
+      "type": "object"
+    },
+    "SlackChannelCreatedEvent": {
+      "properties": {
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionEventActor"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "channel_id": {
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "channel_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Channel Name"
+        },
+        "type": {
+          "const": "slack.channel_created",
+          "default": "slack.channel_created",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "actor",
+        "channel_id",
+        "channel_name",
+        "type",
+        "url"
+      ],
+      "title": "SlackChannelCreatedEvent",
+      "type": "object"
+    },
+    "SlackMessageEvent": {
+      "properties": {
+        "action": {
+          "enum": [
+            "message",
+            "app_mention"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionEventActor"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "channel_id": {
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "channel_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Channel Name"
+        },
+        "message_ts": {
+          "title": "Message Ts",
+          "type": "string"
+        },
+        "thread_ts": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Thread Ts"
+        },
+        "type": {
+          "const": "slack.message",
+          "default": "slack.message",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "actor",
+        "channel_id",
+        "channel_name",
+        "message_ts",
+        "thread_ts",
+        "type",
+        "url"
+      ],
+      "title": "SlackMessageEvent",
+      "type": "object"
+    },
+    "VMExecutionResponse": {
+      "properties": {
+        "cache_tier": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SandboxCacheTier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cost_sandbox_cpu": {
+          "title": "Cost Sandbox Cpu",
+          "type": "integer"
+        },
+        "cost_sandbox_memory": {
+          "title": "Cost Sandbox Memory",
+          "type": "integer"
+        },
+        "cpu": {
+          "title": "Cpu",
+          "type": "number"
+        },
+        "encrypted_ports": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Encrypted Ports",
+          "type": "array"
+        },
+        "environment_variable_keys": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Environment Variable Keys",
+          "type": "array"
+        },
+        "failed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Failed At"
+        },
+        "hooks": {
+          "$ref": "#/$defs/EnvironmentHooks",
+          "default": {
+            "after_checkout": null,
+            "before_start": null,
+            "build_base": null,
+            "post_clone": null,
+            "post_start": null
+          }
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "memory_mib": {
+          "title": "Memory Mib",
+          "type": "integer"
+        },
+        "phase_timings": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Phase Timings",
+          "type": "object"
+        },
+        "post_clone": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Post Clone"
+        },
+        "post_start": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Post Start"
+        },
+        "repositories": {
+          "items": {
+            "$ref": "#/$defs/SandboxRepository"
+          },
+          "title": "Repositories",
+          "type": "array"
+        },
+        "running_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Running At"
+        },
+        "scheduled_at": {
+          "format": "date-time",
+          "title": "Scheduled At",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/SandboxSource"
+        },
+        "source_session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Session Id"
+        },
+        "status": {
+          "$ref": "#/$defs/SandboxStatus"
+        },
+        "terminated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Terminated At"
+        },
+        "terminating_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Terminating At"
+        },
+        "timeout_seconds": {
+          "title": "Timeout Seconds",
+          "type": "integer"
+        },
+        "tunnels": {
+          "items": {
+            "$ref": "#/$defs/SandboxPort"
+          },
+          "title": "Tunnels",
+          "type": "array"
+        },
+        "type": {
+          "$ref": "#/$defs/SandboxType"
+        },
+        "unencrypted_ports": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Unencrypted Ports",
+          "type": "array"
+        }
+      },
+      "required": [
+        "cache_tier",
+        "cost_sandbox_cpu",
+        "cost_sandbox_memory",
+        "cpu",
+        "encrypted_ports",
+        "environment_variable_keys",
+        "failed_at",
+        "hooks",
+        "id",
+        "memory_mib",
+        "phase_timings",
+        "post_clone",
+        "post_start",
+        "repositories",
+        "running_at",
+        "scheduled_at",
+        "source",
+        "source_session_id",
+        "status",
+        "terminated_at",
+        "terminating_at",
+        "timeout_seconds",
+        "tunnels",
+        "type",
+        "unencrypted_ports"
+      ],
+      "title": "VMExecutionResponse",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Frames on /v1/sessions/stream, /v1/agents/stream and /v1/vm-executions/{id}/stream. Ignore unknown frame types.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/SessionListStreamMessage"
+    },
+    {
+      "$ref": "#/$defs/AgentListStreamMessage"
+    },
+    {
+      "$ref": "#/$defs/CollectionStreamHeartbeat"
+    },
+    {
+      "$ref": "#/$defs/SandboxSnapshotFrame"
+    },
+    {
+      "$ref": "#/$defs/SandboxUpdateFrame"
+    }
+  ],
+  "title": "CollectionStreamFrame"
+}
