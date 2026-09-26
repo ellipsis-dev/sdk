@@ -1,0 +1,438 @@
+{
+  "$defs": {
+    "EnvironmentOutputPayload": {
+      "additionalProperties": true,
+      "description": "environment_output: one chunk of output from preparing the environment,\nincluding the customer's own hooks. Many fire per turn; `chunk` orders them\nwithin a step.",
+      "properties": {
+        "chunk": {
+          "title": "Chunk",
+          "type": "integer"
+        },
+        "lines": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Lines",
+          "type": "array"
+        },
+        "phase": {
+          "title": "Phase",
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "stream": {
+          "default": "stdout",
+          "title": "Stream",
+          "type": "string"
+        }
+      },
+      "required": [
+        "phase",
+        "chunk",
+        "lines"
+      ],
+      "title": "EnvironmentOutputPayload",
+      "type": "object"
+    },
+    "EnvironmentPhasePayload": {
+      "additionalProperties": true,
+      "description": "environment_phase: one transition of environment preparation, so clients\ncan narrate progress live and locate failures. Phases are an OPEN\nvocabulary; `detail` carries phase-specific extras additively.",
+      "properties": {
+        "detail": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "phase": {
+          "title": "Phase",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        }
+      },
+      "required": [
+        "phase",
+        "status"
+      ],
+      "title": "EnvironmentPhasePayload",
+      "type": "object"
+    },
+    "EnvironmentReadyPayload": {
+      "additionalProperties": true,
+      "description": "environment_ready: the environment is prepared and the agent is about\nto start.",
+      "properties": {
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "repositories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Repositories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "repositories"
+      ],
+      "title": "EnvironmentReadyPayload",
+      "type": "object"
+    },
+    "MessageDeliveredPayload": {
+      "additionalProperties": true,
+      "description": "message_delivered: the agent started on the message.",
+      "properties": {
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_id",
+        "turn_id"
+      ],
+      "title": "MessageDeliveredPayload",
+      "type": "object"
+    },
+    "MessageReceivedPayload": {
+      "additionalProperties": true,
+      "description": "message_received: a message landed in the session inbox and its turn was\ncreated. `turn_id` is the turn that will answer it.",
+      "properties": {
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author"
+        },
+        "body": {
+          "title": "Body",
+          "type": "string"
+        },
+        "closes_session": {
+          "default": false,
+          "title": "Closes Session",
+          "type": "boolean"
+        },
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "sender_attribution_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sender Attribution Id"
+        },
+        "sender_attribution_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sender Attribution Type"
+        },
+        "turn_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Turn Id"
+        }
+      },
+      "required": [
+        "message_id",
+        "body"
+      ],
+      "title": "MessageReceivedPayload",
+      "type": "object"
+    },
+    "MessageRequeuedPayload": {
+      "additionalProperties": true,
+      "description": "message_requeued: a turn was interrupted before answering, so the\nmessage goes back to the inbox with a new pending turn.",
+      "properties": {
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "requeued_turn_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Requeued Turn Id"
+        },
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_id",
+        "turn_id"
+      ],
+      "title": "MessageRequeuedPayload",
+      "type": "object"
+    },
+    "OutboxCollectedPayload": {
+      "additionalProperties": true,
+      "description": "outbox_collected: the platform read a code_review session's\n/ellipsis/outbox/* when its turn ended. Carries both raw and parsed so\nthe feed alone tells the whole delivery story; the code_review_outbox\ntable is the queryable projection of this record.",
+      "properties": {
+        "findings": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "parse_errors": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Parse Errors",
+          "type": "array"
+        },
+        "parser_version": {
+          "title": "Parser Version",
+          "type": "string"
+        },
+        "raw": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "title": "Raw",
+          "type": "object"
+        }
+      },
+      "required": [
+        "parser_version"
+      ],
+      "title": "OutboxCollectedPayload",
+      "type": "object"
+    },
+    "SessionClosedPayload": {
+      "additionalProperties": true,
+      "description": "session_closed: the conversation closed permanently.",
+      "properties": {},
+      "title": "SessionClosedPayload",
+      "type": "object"
+    },
+    "TurnEndedPayload": {
+      "additionalProperties": true,
+      "description": "turn_ended: the turn reached its final status. `status`, `reason`, and\n`detail` match the turn on the session object.",
+      "properties": {
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        },
+        "turn_index": {
+          "title": "Turn Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "turn_id",
+        "turn_index",
+        "status"
+      ],
+      "title": "TurnEndedPayload",
+      "type": "object"
+    },
+    "TurnStartedPayload": {
+      "additionalProperties": true,
+      "description": "turn_started: the agent started on the turn's message.",
+      "properties": {
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        },
+        "turn_index": {
+          "title": "Turn Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "turn_id",
+        "turn_index"
+      ],
+      "title": "TurnStartedPayload",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Payloads of source='lifecycle' session records, keyed by record_type. Contract: payload changes are additive-only; clients MUST ignore unknown record types and unknown payload fields, and MUST render unknown phase/step/status values generically.",
+  "properties": {
+    "environment_output": {
+      "$ref": "#/$defs/EnvironmentOutputPayload"
+    },
+    "environment_phase": {
+      "$ref": "#/$defs/EnvironmentPhasePayload"
+    },
+    "environment_ready": {
+      "$ref": "#/$defs/EnvironmentReadyPayload"
+    },
+    "message_delivered": {
+      "$ref": "#/$defs/MessageDeliveredPayload"
+    },
+    "message_received": {
+      "$ref": "#/$defs/MessageReceivedPayload"
+    },
+    "message_requeued": {
+      "$ref": "#/$defs/MessageRequeuedPayload"
+    },
+    "outbox_collected": {
+      "$ref": "#/$defs/OutboxCollectedPayload"
+    },
+    "session_closed": {
+      "$ref": "#/$defs/SessionClosedPayload"
+    },
+    "turn_ended": {
+      "$ref": "#/$defs/TurnEndedPayload"
+    },
+    "turn_started": {
+      "$ref": "#/$defs/TurnStartedPayload"
+    }
+  },
+  "required": [
+    "environment_output",
+    "environment_phase",
+    "environment_ready",
+    "message_delivered",
+    "message_received",
+    "message_requeued",
+    "outbox_collected",
+    "session_closed",
+    "turn_ended",
+    "turn_started"
+  ],
+  "title": "LifecyclePayloads",
+  "type": "object"
+}

@@ -1,0 +1,834 @@
+{
+  "close_code": 1000,
+  "description": "Golden session stream (protocol v6): recorded from the server loop by test_sdk_golden_fixture.py; ids, timestamps and durations normalized. Pins frame SEQUENCING and behavior \u2014 shape is owned by schema/frames.schema.json.",
+  "frames": [
+    {
+      "earliest_feed_seq": 1,
+      "messages": [
+        {
+          "author": null,
+          "body": "please also update the docs",
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "delivered_at": null,
+          "feed_seq": 4,
+          "id": "message_GOLDEN_1",
+          "images": [],
+          "sender_attribution_id": null,
+          "sender_attribution_type": null,
+          "session_id": "session_GOLDEN",
+          "status": "pending",
+          "turn_id": "turn_golden_1"
+        }
+      ],
+      "protocol": 6,
+      "session": {
+        "agent": {
+          "config": {
+            "ellipsis": {
+              "description": null,
+              "enabled": true,
+              "kind": "agent",
+              "metadata": {
+                "annotations": {},
+                "labels": []
+              },
+              "name": "stream-test-agent",
+              "version": "v1"
+            },
+            "input": null,
+            "session": {
+              "budget": {
+                "day": null,
+                "month": null,
+                "session": null,
+                "week": null
+              },
+              "claude_code": {
+                "effort": null,
+                "fallback_model": null,
+                "max_turns": null,
+                "model": null,
+                "prompt": "Do something",
+                "settings": null
+              },
+              "codex": null,
+              "environment": {
+                "compute": {
+                  "cpu": null,
+                  "memory": null,
+                  "timeout": null
+                },
+                "hooks": {
+                  "after_checkout": null,
+                  "before_start": null,
+                  "build_base": null,
+                  "post_clone": null,
+                  "post_start": null
+                },
+                "mcp_servers": [],
+                "repositories": [],
+                "variables": []
+              },
+              "output": null,
+              "permissions": {
+                "ellipsis": true,
+                "github": {
+                  "permissions": null,
+                  "repositories": null
+                }
+              },
+              "skills": []
+            },
+            "trigger": null
+          },
+          "id": null
+        },
+        "archived": null,
+        "attribution": {
+          "id": null,
+          "type": null,
+          "user": null
+        },
+        "budget": 10.0,
+        "claude_code": {
+          "effort": null,
+          "fallback_model": null,
+          "max_turns": null,
+          "model": null,
+          "prompt": null,
+          "settings": null
+        },
+        "codex": null,
+        "conversation": {
+          "interactive": true,
+          "prompting": {
+            "blocked_reason": null,
+            "detail": null,
+            "enabled": true,
+            "surface_name": null
+          },
+          "state": "open",
+          "warm": true
+        },
+        "cost": {
+          "cpu": 0,
+          "fee": 0,
+          "llm": 0,
+          "memory": 0,
+          "total": 0
+        },
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "environment": {
+          "compute": {
+            "cpu": null,
+            "memory": null,
+            "timeout": null
+          },
+          "hooks": {
+            "after_checkout": null,
+            "before_start": null,
+            "build_base": null,
+            "post_clone": null,
+            "post_start": null
+          },
+          "id": null,
+          "mcp_servers": [],
+          "repositories": [],
+          "source": null,
+          "variables": []
+        },
+        "event": null,
+        "git": null,
+        "handler": null,
+        "id": "session_GOLDEN",
+        "metadata": {},
+        "output": null,
+        "parent": null,
+        "permissions": {
+          "ellipsis": true,
+          "github": {
+            "permissions": null,
+            "repositories": null
+          }
+        },
+        "skills": [],
+        "source": "cli",
+        "summary": null,
+        "tokens": {
+          "cache_creation": 0,
+          "cache_read": 0,
+          "input": 0,
+          "model": "claude-opus-4-8",
+          "output": 0,
+          "total": 0
+        },
+        "turn": {
+          "cost": {
+            "cpu": 0,
+            "fee": 0,
+            "llm": 0,
+            "memory": 0,
+            "total": 0
+          },
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "detail": null,
+          "ended_at": null,
+          "id": "turn_golden_0",
+          "index": 0,
+          "reason": null,
+          "started_at": "2026-01-01T00:00:00+00:00",
+          "status": "running",
+          "stopped": null,
+          "tokens": {
+            "cache_creation": 0,
+            "cache_read": 0,
+            "input": 0,
+            "model": "",
+            "output": 0,
+            "total": 0
+          }
+        },
+        "updated_at": "2026-01-01T00:00:00+00:00"
+      },
+      "type": "snapshot"
+    },
+    {
+      "records": [
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 1,
+          "id": "record_GOLDEN_turn_started_0",
+          "kind": "platform",
+          "model": null,
+          "payload": {
+            "turn_id": "turn_golden_0",
+            "turn_index": 0
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "turn_started",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "lifecycle",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_0"
+        },
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 2,
+          "id": "record_GOLDEN_1",
+          "kind": "claude_sdk",
+          "model": null,
+          "payload": {
+            "content": [
+              {
+                "text": "step 0",
+                "type": "text"
+              }
+            ],
+            "kind": "assistant",
+            "model": "claude-opus-5"
+          },
+          "record_format": "claude_sdk@1",
+          "record_type": "assistant",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "claude_code",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_0"
+        },
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 3,
+          "id": "record_GOLDEN_2",
+          "kind": "claude_sdk",
+          "model": null,
+          "payload": {
+            "content": [
+              {
+                "text": "step 1",
+                "type": "text"
+              }
+            ],
+            "kind": "assistant",
+            "model": "claude-opus-5"
+          },
+          "record_format": "claude_sdk@1",
+          "record_type": "assistant",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "claude_code",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_0"
+        },
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 5,
+          "id": "record_GOLDEN_message_received_1",
+          "kind": "platform",
+          "model": null,
+          "payload": {
+            "author": null,
+            "body": "please also update the docs",
+            "closes_session": false,
+            "message_id": "message_GOLDEN_1",
+            "sender_attribution_id": null,
+            "sender_attribution_type": null,
+            "turn_id": "turn_golden_1"
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "message_received",
+          "session_id": "session_GOLDEN",
+          "session_message_id": "message_GOLDEN_1",
+          "source": "lifecycle",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_1"
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "records": [
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 6,
+          "id": "record_GOLDEN_turn_ended_0",
+          "kind": "platform",
+          "model": null,
+          "payload": {
+            "detail": null,
+            "duration_ms": 1000,
+            "reason": null,
+            "status": "completed",
+            "turn_id": "turn_golden_0",
+            "turn_index": 0
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "turn_ended",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "lifecycle",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_0"
+        },
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 7,
+          "id": "record_GOLDEN_turn_started_1",
+          "kind": "platform",
+          "model": null,
+          "payload": {
+            "turn_id": "turn_golden_1",
+            "turn_index": 1
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "turn_started",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "lifecycle",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_1"
+        },
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 8,
+          "id": "record_GOLDEN_message_delivered_1",
+          "kind": "platform",
+          "model": null,
+          "payload": {
+            "message_id": "message_GOLDEN_1",
+            "turn_id": "turn_golden_1"
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "message_delivered",
+          "session_id": "session_GOLDEN",
+          "session_message_id": "message_GOLDEN_1",
+          "source": "lifecycle",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_1"
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "session": {
+        "agent": {
+          "config": {
+            "ellipsis": {
+              "description": null,
+              "enabled": true,
+              "kind": "agent",
+              "metadata": {
+                "annotations": {},
+                "labels": []
+              },
+              "name": "stream-test-agent",
+              "version": "v1"
+            },
+            "input": null,
+            "session": {
+              "budget": {
+                "day": null,
+                "month": null,
+                "session": null,
+                "week": null
+              },
+              "claude_code": {
+                "effort": null,
+                "fallback_model": null,
+                "max_turns": null,
+                "model": null,
+                "prompt": "Do something",
+                "settings": null
+              },
+              "codex": null,
+              "environment": {
+                "compute": {
+                  "cpu": null,
+                  "memory": null,
+                  "timeout": null
+                },
+                "hooks": {
+                  "after_checkout": null,
+                  "before_start": null,
+                  "build_base": null,
+                  "post_clone": null,
+                  "post_start": null
+                },
+                "mcp_servers": [],
+                "repositories": [],
+                "variables": []
+              },
+              "output": null,
+              "permissions": {
+                "ellipsis": true,
+                "github": {
+                  "permissions": null,
+                  "repositories": null
+                }
+              },
+              "skills": []
+            },
+            "trigger": null
+          },
+          "id": null
+        },
+        "archived": null,
+        "attribution": {
+          "id": null,
+          "type": null,
+          "user": null
+        },
+        "budget": 10.0,
+        "claude_code": {
+          "effort": null,
+          "fallback_model": null,
+          "max_turns": null,
+          "model": null,
+          "prompt": null,
+          "settings": null
+        },
+        "codex": null,
+        "conversation": {
+          "interactive": true,
+          "prompting": {
+            "blocked_reason": null,
+            "detail": null,
+            "enabled": true,
+            "surface_name": null
+          },
+          "state": "open",
+          "warm": true
+        },
+        "cost": {
+          "cpu": 0,
+          "fee": 0,
+          "llm": 0,
+          "memory": 0,
+          "total": 0
+        },
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "environment": {
+          "compute": {
+            "cpu": null,
+            "memory": null,
+            "timeout": null
+          },
+          "hooks": {
+            "after_checkout": null,
+            "before_start": null,
+            "build_base": null,
+            "post_clone": null,
+            "post_start": null
+          },
+          "id": null,
+          "mcp_servers": [],
+          "repositories": [],
+          "source": null,
+          "variables": []
+        },
+        "event": null,
+        "git": null,
+        "handler": null,
+        "id": "session_GOLDEN",
+        "metadata": {},
+        "output": null,
+        "parent": null,
+        "permissions": {
+          "ellipsis": true,
+          "github": {
+            "permissions": null,
+            "repositories": null
+          }
+        },
+        "skills": [],
+        "source": "cli",
+        "summary": null,
+        "tokens": {
+          "cache_creation": 0,
+          "cache_read": 0,
+          "input": 0,
+          "model": "claude-opus-4-8",
+          "output": 0,
+          "total": 0
+        },
+        "turn": {
+          "cost": {
+            "cpu": 0,
+            "fee": 0,
+            "llm": 0,
+            "memory": 0,
+            "total": 0
+          },
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "detail": null,
+          "ended_at": null,
+          "id": "turn_golden_1",
+          "index": 1,
+          "reason": null,
+          "started_at": "2026-01-01T00:00:00+00:00",
+          "status": "running",
+          "stopped": null,
+          "tokens": {
+            "cache_creation": 0,
+            "cache_read": 0,
+            "input": 0,
+            "model": "",
+            "output": 0,
+            "total": 0
+          }
+        },
+        "updated_at": "2026-01-01T00:00:00+00:00"
+      },
+      "type": "session"
+    },
+    {
+      "records": [
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 9,
+          "id": "record_GOLDEN_3",
+          "kind": "claude_sdk",
+          "model": null,
+          "payload": {
+            "content": "please also update the docs",
+            "kind": "user"
+          },
+          "record_format": "claude_sdk@1",
+          "record_type": "user",
+          "session_id": "session_GOLDEN",
+          "session_message_id": "message_GOLDEN_1",
+          "source": "claude_code",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_1"
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "kind": "text",
+      "output_tokens": 4,
+      "text": "On it \u2014 ",
+      "turn_id": "turn_golden_1",
+      "type": "delta"
+    },
+    {
+      "records": [
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 10,
+          "id": "record_GOLDEN_4",
+          "kind": "claude_sdk",
+          "model": null,
+          "payload": {
+            "content": [
+              {
+                "text": "Docs updated.",
+                "type": "text"
+              }
+            ],
+            "kind": "assistant",
+            "model": "claude-opus-5"
+          },
+          "record_format": "claude_sdk@1",
+          "record_type": "assistant",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "claude_code",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_1"
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "records": [
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 11,
+          "id": "record_GOLDEN_turn_ended_1",
+          "kind": "platform",
+          "model": null,
+          "payload": {
+            "detail": null,
+            "duration_ms": 1000,
+            "reason": null,
+            "status": "completed",
+            "turn_id": "turn_golden_1",
+            "turn_index": 1
+          },
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "turn_ended",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "lifecycle",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": "turn_golden_1"
+        },
+        {
+          "cost": null,
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "duration": null,
+          "feed_seq": 12,
+          "id": "record_GOLDEN_session_closed",
+          "kind": "platform",
+          "model": null,
+          "payload": {},
+          "record_format": "ellipsis_lifecycle@1",
+          "record_type": "session_closed",
+          "session_id": "session_GOLDEN",
+          "session_message_id": null,
+          "source": "lifecycle",
+          "tokens_info": null,
+          "tools": null,
+          "turn_id": null
+        }
+      ],
+      "type": "records_append"
+    },
+    {
+      "session": {
+        "agent": {
+          "config": {
+            "ellipsis": {
+              "description": null,
+              "enabled": true,
+              "kind": "agent",
+              "metadata": {
+                "annotations": {},
+                "labels": []
+              },
+              "name": "stream-test-agent",
+              "version": "v1"
+            },
+            "input": null,
+            "session": {
+              "budget": {
+                "day": null,
+                "month": null,
+                "session": null,
+                "week": null
+              },
+              "claude_code": {
+                "effort": null,
+                "fallback_model": null,
+                "max_turns": null,
+                "model": null,
+                "prompt": "Do something",
+                "settings": null
+              },
+              "codex": null,
+              "environment": {
+                "compute": {
+                  "cpu": null,
+                  "memory": null,
+                  "timeout": null
+                },
+                "hooks": {
+                  "after_checkout": null,
+                  "before_start": null,
+                  "build_base": null,
+                  "post_clone": null,
+                  "post_start": null
+                },
+                "mcp_servers": [],
+                "repositories": [],
+                "variables": []
+              },
+              "output": null,
+              "permissions": {
+                "ellipsis": true,
+                "github": {
+                  "permissions": null,
+                  "repositories": null
+                }
+              },
+              "skills": []
+            },
+            "trigger": null
+          },
+          "id": null
+        },
+        "archived": null,
+        "attribution": {
+          "id": null,
+          "type": null,
+          "user": null
+        },
+        "budget": 10.0,
+        "claude_code": {
+          "effort": null,
+          "fallback_model": null,
+          "max_turns": null,
+          "model": null,
+          "prompt": null,
+          "settings": null
+        },
+        "codex": null,
+        "conversation": {
+          "interactive": true,
+          "prompting": {
+            "blocked_reason": "closed",
+            "detail": "This session is closed and cannot receive messages. Start a new session to continue.",
+            "enabled": false,
+            "surface_name": null
+          },
+          "state": "closed",
+          "warm": false
+        },
+        "cost": {
+          "cpu": 0,
+          "fee": 0,
+          "llm": 0,
+          "memory": 0,
+          "total": 0
+        },
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "environment": {
+          "compute": {
+            "cpu": null,
+            "memory": null,
+            "timeout": null
+          },
+          "hooks": {
+            "after_checkout": null,
+            "before_start": null,
+            "build_base": null,
+            "post_clone": null,
+            "post_start": null
+          },
+          "id": null,
+          "mcp_servers": [],
+          "repositories": [],
+          "source": null,
+          "variables": []
+        },
+        "event": null,
+        "git": null,
+        "handler": null,
+        "id": "session_GOLDEN",
+        "metadata": {},
+        "output": null,
+        "parent": null,
+        "permissions": {
+          "ellipsis": true,
+          "github": {
+            "permissions": null,
+            "repositories": null
+          }
+        },
+        "skills": [],
+        "source": "cli",
+        "summary": null,
+        "tokens": {
+          "cache_creation": 0,
+          "cache_read": 0,
+          "input": 0,
+          "model": "claude-opus-4-8",
+          "output": 0,
+          "total": 0
+        },
+        "turn": {
+          "cost": {
+            "cpu": 0,
+            "fee": 0,
+            "llm": 0,
+            "memory": 0,
+            "total": 0
+          },
+          "created_at": "2026-01-01T00:00:00+00:00",
+          "detail": null,
+          "ended_at": "2026-01-01T00:00:00+00:00",
+          "id": "turn_golden_1",
+          "index": 1,
+          "reason": null,
+          "started_at": "2026-01-01T00:00:00+00:00",
+          "status": "completed",
+          "stopped": null,
+          "tokens": {
+            "cache_creation": 0,
+            "cache_read": 0,
+            "input": 0,
+            "model": "",
+            "output": 0,
+            "total": 0
+          }
+        },
+        "updated_at": "2026-01-01T00:00:00+00:00"
+      },
+      "type": "session"
+    },
+    {
+      "type": "done"
+    }
+  ]
+}
