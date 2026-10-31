@@ -1,0 +1,944 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "The published react-surface field sets: per trigger surface, the dotted paths an agent's input.message template may reference. Referencing an object- or array-typed path renders the whole value as pretty-printed JSON.",
+  "surfaces": {
+    "check_run": [
+      {
+        "description": "The state that fired, one of the trigger's `on` values.",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The check run id (on GitHub Actions, the job id).",
+        "path": "check_run.id",
+        "type": "integer"
+      },
+      {
+        "description": "The check's name, as the checks tab shows it.",
+        "path": "check_run.name",
+        "type": "string"
+      },
+      {
+        "description": "GitHub's status for the run (queued | in_progress | completed, and the Actions states).",
+        "path": "check_run.status",
+        "type": "string"
+      },
+      {
+        "description": "GitHub's conclusion for the run (empty string before it completes).",
+        "path": "check_run.conclusion",
+        "type": "string"
+      },
+      {
+        "description": "The check's page on GitHub.",
+        "path": "check_run.url",
+        "type": "string"
+      },
+      {
+        "description": "The reporting app's page for the run (empty string when it has none).",
+        "path": "check_run.details_url",
+        "type": "string"
+      },
+      {
+        "description": "The app that reported the check (e.g. \"GitHub Actions\"; empty string when unknown).",
+        "path": "check_run.app",
+        "type": "string"
+      },
+      {
+        "description": "When the run started, ISO 8601 (empty string when unknown).",
+        "path": "check_run.started_at",
+        "type": "string"
+      },
+      {
+        "description": "When the run completed, ISO 8601 (empty string when unknown).",
+        "path": "check_run.completed_at",
+        "type": "string"
+      },
+      {
+        "description": "The output title the app wrote on the run (empty string when none).",
+        "path": "check_run.output.title",
+        "type": "string"
+      },
+      {
+        "description": "The output summary, markdown (empty string when none).",
+        "path": "check_run.output.summary",
+        "type": "string"
+      },
+      {
+        "description": "The output text, markdown (empty string when none).",
+        "path": "check_run.output.text",
+        "type": "string"
+      },
+      {
+        "description": "The GitHub Actions workflow run id (empty string for a check another app reported).",
+        "path": "workflow_run_id",
+        "type": "string"
+      },
+      {
+        "description": "The GitHub Actions job id (empty string for a check another app reported).",
+        "path": "workflow_job_id",
+        "type": "string"
+      },
+      {
+        "description": "The commit CI ran on.",
+        "path": "head_sha",
+        "type": "string"
+      },
+      {
+        "description": "The branch CI ran on (empty string when GitHub could not map the commit to one).",
+        "path": "branch",
+        "type": "string"
+      },
+      {
+        "description": "The login of the commit's author (empty string when unknown).",
+        "path": "author",
+        "type": "string"
+      },
+      {
+        "description": "The pull request the commit belongs to (0 when none).",
+        "path": "pull_request.number",
+        "type": "integer"
+      },
+      {
+        "description": "The pull request title (empty string when none).",
+        "path": "pull_request.title",
+        "type": "string"
+      },
+      {
+        "description": "The pull request's web URL (empty string when none).",
+        "path": "pull_request.url",
+        "type": "string"
+      },
+      {
+        "description": "The pull request author's login (empty string when none).",
+        "path": "pull_request.author",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request targets (empty string when none).",
+        "path": "pull_request.base_branch",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request is from (empty string when none).",
+        "path": "pull_request.head_branch",
+        "type": "string"
+      },
+      {
+        "description": "Whether the pull request is a draft (false when none).",
+        "path": "pull_request.draft",
+        "type": "boolean"
+      },
+      {
+        "description": "The run's file annotations (the first 50), as the reporting app attached them.",
+        "path": "annotations",
+        "type": "array[object{path,start_line,end_line,level,title,message}]"
+      }
+    ],
+    "check_suite": [
+      {
+        "description": "The state that fired, one of the trigger's `on` values.",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The check suite id.",
+        "path": "check_suite.id",
+        "type": "integer"
+      },
+      {
+        "description": "The app that reported the suite (e.g. \"GitHub Actions\"; empty string when unknown).",
+        "path": "check_suite.app",
+        "type": "string"
+      },
+      {
+        "description": "The reporting app's slug (e.g. \"github-actions\"; empty string when unknown).",
+        "path": "check_suite.app_slug",
+        "type": "string"
+      },
+      {
+        "description": "GitHub's conclusion for the suite.",
+        "path": "check_suite.conclusion",
+        "type": "string"
+      },
+      {
+        "description": "How many check runs the suite holds.",
+        "path": "check_suite.check_runs_count",
+        "type": "integer"
+      },
+      {
+        "description": "The commit CI ran on.",
+        "path": "head_sha",
+        "type": "string"
+      },
+      {
+        "description": "The branch CI ran on (empty string when GitHub could not map the commit to one).",
+        "path": "branch",
+        "type": "string"
+      },
+      {
+        "description": "The login of the commit's author (empty string when unknown).",
+        "path": "author",
+        "type": "string"
+      },
+      {
+        "description": "The pull request the commit belongs to (0 when none).",
+        "path": "pull_request.number",
+        "type": "integer"
+      },
+      {
+        "description": "The pull request title (empty string when none).",
+        "path": "pull_request.title",
+        "type": "string"
+      },
+      {
+        "description": "The pull request's web URL (empty string when none).",
+        "path": "pull_request.url",
+        "type": "string"
+      },
+      {
+        "description": "The pull request author's login (empty string when none).",
+        "path": "pull_request.author",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request targets (empty string when none).",
+        "path": "pull_request.base_branch",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request is from (empty string when none).",
+        "path": "pull_request.head_branch",
+        "type": "string"
+      },
+      {
+        "description": "Whether the pull request is a draft (false when none).",
+        "path": "pull_request.draft",
+        "type": "boolean"
+      }
+    ],
+    "issue": [
+      {
+        "description": "The issue event that fired (opened | closed | commented).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The issue number.",
+        "path": "issue.number",
+        "type": "integer"
+      },
+      {
+        "description": "The issue title.",
+        "path": "issue.title",
+        "type": "string"
+      },
+      {
+        "description": "The issue body (empty string when the issue has none).",
+        "path": "issue.body",
+        "type": "string"
+      },
+      {
+        "description": "The issue author's login.",
+        "path": "issue.author",
+        "type": "string"
+      },
+      {
+        "description": "The issue's web URL.",
+        "path": "issue.url",
+        "type": "string"
+      },
+      {
+        "description": "The issue state (open | closed).",
+        "path": "issue.state",
+        "type": "string"
+      },
+      {
+        "description": "The issue's label names.",
+        "path": "issue.labels",
+        "type": "array[string]"
+      },
+      {
+        "description": "The issue's comments, oldest first.",
+        "path": "comments",
+        "type": "array[object{author,body,url}]"
+      }
+    ],
+    "linear_issue": [
+      {
+        "description": "The Linear issue event that fired (opened | updated).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The Linear issue's UUID.",
+        "path": "issue.id",
+        "type": "string"
+      },
+      {
+        "description": "The human identifier (e.g. \"ENG-123\").",
+        "path": "issue.identifier",
+        "type": "string"
+      },
+      {
+        "description": "The issue title.",
+        "path": "issue.title",
+        "type": "string"
+      },
+      {
+        "description": "The issue description (empty string when it has none).",
+        "path": "issue.description",
+        "type": "string"
+      },
+      {
+        "description": "The issue's web URL.",
+        "path": "issue.url",
+        "type": "string"
+      },
+      {
+        "description": "The owning team's name.",
+        "path": "issue.team",
+        "type": "string"
+      },
+      {
+        "description": "The issue's workflow state.",
+        "path": "issue.state",
+        "type": "string"
+      },
+      {
+        "description": "The issue creator's name (empty string when unknown).",
+        "path": "issue.creator",
+        "type": "string"
+      },
+      {
+        "description": "The issue's comments, oldest first.",
+        "path": "comments",
+        "type": "array[object{author,body}]"
+      },
+      {
+        "description": "For updated, each watched field that changed: its name, the value before and after (empty strings for labels), and the labels added and removed.",
+        "path": "changes",
+        "type": "array[object{field,before,after,added,removed}]"
+      }
+    ],
+    "pull_request": [
+      {
+        "description": "The pull request event that fired (opened | pushed | merged | closed | review_submitted | commented).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The pull request number.",
+        "path": "pull_request.number",
+        "type": "integer"
+      },
+      {
+        "description": "The pull request title.",
+        "path": "pull_request.title",
+        "type": "string"
+      },
+      {
+        "description": "The pull request body (empty string when it has none).",
+        "path": "pull_request.body",
+        "type": "string"
+      },
+      {
+        "description": "The pull request author's login.",
+        "path": "pull_request.author",
+        "type": "string"
+      },
+      {
+        "description": "The pull request's web URL.",
+        "path": "pull_request.url",
+        "type": "string"
+      },
+      {
+        "description": "The pull request state (open | closed).",
+        "path": "pull_request.state",
+        "type": "string"
+      },
+      {
+        "description": "Whether the pull request is a draft.",
+        "path": "pull_request.draft",
+        "type": "boolean"
+      },
+      {
+        "description": "The branch the pull request targets.",
+        "path": "pull_request.base_branch",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request is from.",
+        "path": "pull_request.head_branch",
+        "type": "string"
+      },
+      {
+        "description": "The base commit SHA.",
+        "path": "pull_request.base_sha",
+        "type": "string"
+      },
+      {
+        "description": "The head commit SHA (the event-time head).",
+        "path": "pull_request.head_sha",
+        "type": "string"
+      },
+      {
+        "description": "The pull request's label names.",
+        "path": "pull_request.labels",
+        "type": "array[string]"
+      },
+      {
+        "description": "The pull request's commits, oldest first.",
+        "path": "commits",
+        "type": "array[object{sha,message,author}]"
+      }
+    ],
+    "push": [
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The pushed branch name.",
+        "path": "branch",
+        "type": "string"
+      },
+      {
+        "description": "The branch head SHA before the push.",
+        "path": "before",
+        "type": "string"
+      },
+      {
+        "description": "The branch head SHA after the push.",
+        "path": "after",
+        "type": "string"
+      },
+      {
+        "description": "Whether the push was a force push.",
+        "path": "forced",
+        "type": "boolean"
+      },
+      {
+        "description": "The pusher's login.",
+        "path": "pusher.login",
+        "type": "string"
+      },
+      {
+        "description": "The pushed commits (GitHub caps the payload at 20).",
+        "path": "commits",
+        "type": "array[object{sha,message,author}]"
+      }
+    ],
+    "release": [
+      {
+        "description": "The release event that fired (published).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The release id.",
+        "path": "release.id",
+        "type": "integer"
+      },
+      {
+        "description": "The release's tag name.",
+        "path": "release.tag",
+        "type": "string"
+      },
+      {
+        "description": "The release's name (empty string when it has none).",
+        "path": "release.name",
+        "type": "string"
+      },
+      {
+        "description": "The release notes, markdown (empty string when none).",
+        "path": "release.body",
+        "type": "string"
+      },
+      {
+        "description": "Whether the release is marked as a prerelease.",
+        "path": "release.prerelease",
+        "type": "boolean"
+      },
+      {
+        "description": "The branch name or commit SHA the release was cut from.",
+        "path": "release.target",
+        "type": "string"
+      },
+      {
+        "description": "The release's page on GitHub.",
+        "path": "release.url",
+        "type": "string"
+      },
+      {
+        "description": "The login of the account that published the release.",
+        "path": "release.author",
+        "type": "string"
+      },
+      {
+        "description": "When the release was published, ISO 8601 (empty string when unknown).",
+        "path": "release.published_at",
+        "type": "string"
+      }
+    ],
+    "sentry": [
+      {
+        "description": "The Sentry alert kind (issue_alert | metric_alert).",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The Sentry organization slug.",
+        "path": "organization_slug",
+        "type": "string"
+      },
+      {
+        "description": "The Sentry project slug (empty string when unknown).",
+        "path": "project_slug",
+        "type": "string"
+      },
+      {
+        "description": "The Sentry issue id (issue alerts; empty otherwise).",
+        "path": "issue.id",
+        "type": "string"
+      },
+      {
+        "description": "The issue's web URL.",
+        "path": "issue.url",
+        "type": "string"
+      },
+      {
+        "description": "The issue title.",
+        "path": "issue.title",
+        "type": "string"
+      },
+      {
+        "description": "The code location Sentry blames.",
+        "path": "issue.culprit",
+        "type": "string"
+      },
+      {
+        "description": "The issue level (e.g. error).",
+        "path": "issue.level",
+        "type": "string"
+      },
+      {
+        "description": "The environment the event fired in.",
+        "path": "issue.environment",
+        "type": "string"
+      },
+      {
+        "description": "The release the event is on.",
+        "path": "issue.release",
+        "type": "string"
+      },
+      {
+        "description": "The triggering event's rendered stack trace, newest frame last.",
+        "path": "stack_trace",
+        "type": "string"
+      },
+      {
+        "description": "The firing alert rule's id (metric alerts; empty otherwise).",
+        "path": "alert_rule.id",
+        "type": "string"
+      },
+      {
+        "description": "The firing alert rule's name.",
+        "path": "alert_rule.name",
+        "type": "string"
+      },
+      {
+        "description": "The metric alert's title (metric alerts; empty otherwise).",
+        "path": "metric_alert.title",
+        "type": "string"
+      },
+      {
+        "description": "The metric alert's status (metric alerts; empty otherwise).",
+        "path": "metric_alert.status",
+        "type": "string"
+      }
+    ],
+    "slack_channel": [
+      {
+        "description": "The Slack workspace (team) id.",
+        "path": "team_id",
+        "type": "string"
+      },
+      {
+        "description": "The created channel's id.",
+        "path": "channel.id",
+        "type": "string"
+      },
+      {
+        "description": "The created channel's name.",
+        "path": "channel.name",
+        "type": "string"
+      },
+      {
+        "description": "The channel's purpose (empty string when unset).",
+        "path": "channel.purpose",
+        "type": "string"
+      },
+      {
+        "description": "The Slack user id of whoever created the channel.",
+        "path": "channel.creator",
+        "type": "string"
+      }
+    ],
+    "status": [
+      {
+        "description": "The state that fired, one of the trigger's `on` values.",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The commit status id.",
+        "path": "status.id",
+        "type": "integer"
+      },
+      {
+        "description": "The status's context, its name on the pull request.",
+        "path": "status.context",
+        "type": "string"
+      },
+      {
+        "description": "GitHub's state for the status (pending | success | failure | error).",
+        "path": "status.state",
+        "type": "string"
+      },
+      {
+        "description": "The description the app wrote (empty string when none).",
+        "path": "status.description",
+        "type": "string"
+      },
+      {
+        "description": "The app's page for the status (empty string when none).",
+        "path": "status.target_url",
+        "type": "string"
+      },
+      {
+        "description": "The branches whose head is the commit, as GitHub lists them (up to 10).",
+        "path": "branches",
+        "type": "array[string]"
+      },
+      {
+        "description": "The commit CI ran on.",
+        "path": "head_sha",
+        "type": "string"
+      },
+      {
+        "description": "The branch CI ran on (empty string when GitHub could not map the commit to one).",
+        "path": "branch",
+        "type": "string"
+      },
+      {
+        "description": "The login of the commit's author (empty string when unknown).",
+        "path": "author",
+        "type": "string"
+      },
+      {
+        "description": "The pull request the commit belongs to (0 when none).",
+        "path": "pull_request.number",
+        "type": "integer"
+      },
+      {
+        "description": "The pull request title (empty string when none).",
+        "path": "pull_request.title",
+        "type": "string"
+      },
+      {
+        "description": "The pull request's web URL (empty string when none).",
+        "path": "pull_request.url",
+        "type": "string"
+      },
+      {
+        "description": "The pull request author's login (empty string when none).",
+        "path": "pull_request.author",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request targets (empty string when none).",
+        "path": "pull_request.base_branch",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request is from (empty string when none).",
+        "path": "pull_request.head_branch",
+        "type": "string"
+      },
+      {
+        "description": "Whether the pull request is a draft (false when none).",
+        "path": "pull_request.draft",
+        "type": "boolean"
+      }
+    ],
+    "workflow_run": [
+      {
+        "description": "The state that fired, one of the trigger's `on` values.",
+        "path": "action",
+        "type": "string"
+      },
+      {
+        "description": "The repository name (without the owner).",
+        "path": "repository.name",
+        "type": "string"
+      },
+      {
+        "description": "The repository owner's login.",
+        "path": "repository.owner",
+        "type": "string"
+      },
+      {
+        "description": "The repository as \"owner/name\".",
+        "path": "repository.full_name",
+        "type": "string"
+      },
+      {
+        "description": "The repository's default branch name.",
+        "path": "repository.default_branch",
+        "type": "string"
+      },
+      {
+        "description": "The workflow run id.",
+        "path": "workflow_run.id",
+        "type": "integer"
+      },
+      {
+        "description": "The workflow's name.",
+        "path": "workflow_run.name",
+        "type": "string"
+      },
+      {
+        "description": "The run's title on the Actions tab (empty string when none).",
+        "path": "workflow_run.title",
+        "type": "string"
+      },
+      {
+        "description": "The workflow file (e.g. .github/workflows/ci.yml; empty string when unknown).",
+        "path": "workflow_run.path",
+        "type": "string"
+      },
+      {
+        "description": "What started the run (e.g. push, pull_request, schedule).",
+        "path": "workflow_run.event",
+        "type": "string"
+      },
+      {
+        "description": "GitHub's status for the run (requested | queued | in_progress | waiting | pending | completed).",
+        "path": "workflow_run.status",
+        "type": "string"
+      },
+      {
+        "description": "GitHub's conclusion for the run (empty string before it completes).",
+        "path": "workflow_run.conclusion",
+        "type": "string"
+      },
+      {
+        "description": "The run's number for this workflow.",
+        "path": "workflow_run.run_number",
+        "type": "integer"
+      },
+      {
+        "description": "The attempt, 1 for the first run and higher for re-runs.",
+        "path": "workflow_run.run_attempt",
+        "type": "integer"
+      },
+      {
+        "description": "The run's page on GitHub.",
+        "path": "workflow_run.url",
+        "type": "string"
+      },
+      {
+        "description": "When the run started, ISO 8601 (empty string when unknown).",
+        "path": "workflow_run.started_at",
+        "type": "string"
+      },
+      {
+        "description": "The commit CI ran on.",
+        "path": "head_sha",
+        "type": "string"
+      },
+      {
+        "description": "The branch CI ran on (empty string when GitHub could not map the commit to one).",
+        "path": "branch",
+        "type": "string"
+      },
+      {
+        "description": "The login of the commit's author (empty string when unknown).",
+        "path": "author",
+        "type": "string"
+      },
+      {
+        "description": "The pull request the commit belongs to (0 when none).",
+        "path": "pull_request.number",
+        "type": "integer"
+      },
+      {
+        "description": "The pull request title (empty string when none).",
+        "path": "pull_request.title",
+        "type": "string"
+      },
+      {
+        "description": "The pull request's web URL (empty string when none).",
+        "path": "pull_request.url",
+        "type": "string"
+      },
+      {
+        "description": "The pull request author's login (empty string when none).",
+        "path": "pull_request.author",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request targets (empty string when none).",
+        "path": "pull_request.base_branch",
+        "type": "string"
+      },
+      {
+        "description": "The branch the pull request is from (empty string when none).",
+        "path": "pull_request.head_branch",
+        "type": "string"
+      },
+      {
+        "description": "Whether the pull request is a draft (false when none).",
+        "path": "pull_request.draft",
+        "type": "boolean"
+      }
+    ]
+  },
+  "title": "TriggerFields"
+}

@@ -1,0 +1,674 @@
+{
+  "$defs": {
+    "Cost": {
+      "description": "What something cost, in millicents.",
+      "properties": {
+        "charged": {
+          "default": 0,
+          "description": "What Ellipsis charged to credit, in millicents. It is everything except subscription tokens.",
+          "title": "Charged",
+          "type": "integer"
+        },
+        "cpu": {
+          "default": 0,
+          "description": "CPU spend in millicents.",
+          "title": "Cpu",
+          "type": "integer"
+        },
+        "fee": {
+          "default": 0,
+          "description": "Platform fee in millicents.",
+          "title": "Fee",
+          "type": "integer"
+        },
+        "llm": {
+          "$ref": "#/$defs/LlmCost",
+          "description": "LLM token cost, in total and by model, split by who paid."
+        },
+        "memory": {
+          "default": 0,
+          "description": "Memory spend in millicents.",
+          "title": "Memory",
+          "type": "integer"
+        },
+        "total": {
+          "default": 0,
+          "description": "Everything it cost, whoever paid, in millicents. It is the sum of llm.all.total, cpu, memory, and fee, and it is what the budget caps.",
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "title": "Cost",
+      "type": "object"
+    },
+    "EnvironmentOutputPayload": {
+      "additionalProperties": true,
+      "description": "environment_output: one chunk of output from preparing the environment,\nincluding the customer's own hooks. Many fire per message; `chunk` orders\nthem within a step.",
+      "properties": {
+        "chunk": {
+          "title": "Chunk",
+          "type": "integer"
+        },
+        "lines": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Lines",
+          "type": "array"
+        },
+        "phase": {
+          "title": "Phase",
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "stream": {
+          "default": "stdout",
+          "title": "Stream",
+          "type": "string"
+        }
+      },
+      "required": [
+        "phase",
+        "chunk",
+        "lines"
+      ],
+      "title": "EnvironmentOutputPayload",
+      "type": "object"
+    },
+    "EnvironmentPhasePayload": {
+      "additionalProperties": true,
+      "description": "environment_phase: one transition of environment preparation, so clients\ncan narrate progress live and locate failures. Phases are an OPEN\nvocabulary; `detail` carries phase-specific extras additively.",
+      "properties": {
+        "detail": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "phase": {
+          "title": "Phase",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        }
+      },
+      "required": [
+        "phase",
+        "status"
+      ],
+      "title": "EnvironmentPhasePayload",
+      "type": "object"
+    },
+    "EnvironmentReadyPayload": {
+      "additionalProperties": true,
+      "description": "environment_ready: the environment is prepared and the agent is about\nto start.",
+      "properties": {
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "repositories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Repositories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "repositories"
+      ],
+      "title": "EnvironmentReadyPayload",
+      "type": "object"
+    },
+    "ErrorReason": {
+      "description": "Why a message failed, was stopped, or was cancelled.",
+      "enum": [
+        "error",
+        "tool_call_failed",
+        "budget_hit",
+        "payment_required",
+        "blocked",
+        "contact_email_required",
+        "lifecycle_hook_failed",
+        "missing_repo_access",
+        "missing_token_permissions",
+        "missing_environment_variables",
+        "missing_github_integration",
+        "agent_unavailable",
+        "upstream_unavailable",
+        "unsupported_configuration",
+        "execution_disabled",
+        "interrupted",
+        "stopped"
+      ],
+      "title": "ErrorReason",
+      "type": "string"
+    },
+    "LlmCost": {
+      "description": "What LLM tokens cost, in total and by model.",
+      "properties": {
+        "all": {
+          "$ref": "#/$defs/LlmCostSplit",
+          "description": "Token cost across every model."
+        },
+        "by_model": {
+          "description": "Token cost for each model that used tokens.",
+          "items": {
+            "$ref": "#/$defs/ModelLlmCostSplit"
+          },
+          "title": "By Model",
+          "type": "array"
+        }
+      },
+      "title": "LlmCost",
+      "type": "object"
+    },
+    "LlmCostSplit": {
+      "description": "What LLM tokens cost, in millicents, split by who paid (Ellipsis credit or the user's own subscription).",
+      "properties": {
+        "claude_subscription": {
+          "default": 0,
+          "description": "Token cost paid by a Claude subscription, at Ellipsis rates, in millicents.",
+          "title": "Claude Subscription",
+          "type": "integer"
+        },
+        "codex_subscription": {
+          "default": 0,
+          "description": "Token cost paid by a Codex subscription, at Ellipsis rates, in millicents.",
+          "title": "Codex Subscription",
+          "type": "integer"
+        },
+        "platform": {
+          "default": 0,
+          "description": "Token cost charged to Ellipsis credit, in millicents.",
+          "title": "Platform",
+          "type": "integer"
+        },
+        "total": {
+          "default": 0,
+          "description": "All token cost, in millicents. It is the sum of platform, claude_subscription, and codex_subscription.",
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "title": "LlmCostSplit",
+      "type": "object"
+    },
+    "MessageEndedPayload": {
+      "additionalProperties": true,
+      "description": "message_ended: the message was answered, or its answer failed, was\nstopped, or was cancelled. `error` is the same object as the session's\n`error`, null when the message was answered. `cost` and `tokens` are what\nanswering it spent. Messages answered together report the spend once, on\nthe last of them.",
+      "properties": {
+        "cost": {
+          "$ref": "#/$defs/Cost"
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Ms"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionError"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "tokens": {
+          "$ref": "#/$defs/Tokens"
+        }
+      },
+      "required": [
+        "message_id",
+        "status"
+      ],
+      "title": "MessageEndedPayload",
+      "type": "object"
+    },
+    "MessageQueuedPayload": {
+      "additionalProperties": true,
+      "description": "message_queued: the message waits because the account already has\n`sessions_alive` sessions alive, its limit.",
+      "properties": {
+        "limit": {
+          "title": "Limit",
+          "type": "integer"
+        },
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "sessions_alive": {
+          "title": "Sessions Alive",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "message_id",
+        "sessions_alive",
+        "limit"
+      ],
+      "title": "MessageQueuedPayload",
+      "type": "object"
+    },
+    "MessageRequeuedPayload": {
+      "additionalProperties": true,
+      "description": "message_requeued: the agent was interrupted before answering, so the\nmessage goes back to the inbox and starts again on a fresh environment.",
+      "properties": {
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_id"
+      ],
+      "title": "MessageRequeuedPayload",
+      "type": "object"
+    },
+    "MessageStartedPayload": {
+      "additionalProperties": true,
+      "description": "message_started: the agent started on the message.",
+      "properties": {
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_id"
+      ],
+      "title": "MessageStartedPayload",
+      "type": "object"
+    },
+    "ModelLlmCostSplit": {
+      "description": "What one model's tokens cost, in millicents, split by who paid.",
+      "properties": {
+        "claude_subscription": {
+          "default": 0,
+          "description": "Token cost paid by a Claude subscription, at Ellipsis rates, in millicents.",
+          "title": "Claude Subscription",
+          "type": "integer"
+        },
+        "codex_subscription": {
+          "default": 0,
+          "description": "Token cost paid by a Codex subscription, at Ellipsis rates, in millicents.",
+          "title": "Codex Subscription",
+          "type": "integer"
+        },
+        "model": {
+          "description": "The model that used these tokens.",
+          "title": "Model",
+          "type": "string"
+        },
+        "platform": {
+          "default": 0,
+          "description": "Token cost charged to Ellipsis credit, in millicents.",
+          "title": "Platform",
+          "type": "integer"
+        },
+        "total": {
+          "default": 0,
+          "description": "All token cost, in millicents. It is the sum of platform, claude_subscription, and codex_subscription.",
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "model"
+      ],
+      "title": "ModelLlmCostSplit",
+      "type": "object"
+    },
+    "ModelTokenCounts": {
+      "description": "Token counts for one model.",
+      "properties": {
+        "cache_creation": {
+          "default": 0,
+          "description": "Tokens written to the prompt cache.",
+          "title": "Cache Creation",
+          "type": "integer"
+        },
+        "cache_read": {
+          "default": 0,
+          "description": "Tokens read from the prompt cache.",
+          "title": "Cache Read",
+          "type": "integer"
+        },
+        "input": {
+          "default": 0,
+          "description": "Input tokens used.",
+          "title": "Input",
+          "type": "integer"
+        },
+        "model": {
+          "description": "The model that used these tokens.",
+          "title": "Model",
+          "type": "string"
+        },
+        "output": {
+          "default": 0,
+          "description": "Output tokens used.",
+          "title": "Output",
+          "type": "integer"
+        },
+        "total": {
+          "default": 0,
+          "description": "All tokens used, including prompt cache reads and writes. Token cost is priced on this.",
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "model"
+      ],
+      "title": "ModelTokenCounts",
+      "type": "object"
+    },
+    "SessionClosedPayload": {
+      "additionalProperties": true,
+      "description": "session_closed: the session closed permanently.",
+      "properties": {},
+      "title": "SessionClosedPayload",
+      "type": "object"
+    },
+    "SessionError": {
+      "description": "Why the last message failed, was stopped, or was cancelled. Cleared\nwhen the next message starts.",
+      "properties": {
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A human-readable explanation.",
+          "title": "Detail"
+        },
+        "reason": {
+          "$ref": "#/$defs/ErrorReason",
+          "description": "What went wrong."
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "title": "SessionError",
+      "type": "object"
+    },
+    "SessionMessage": {
+      "description": "One message sent to a session.",
+      "properties": {
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Display attribution of the message's sender.",
+          "title": "Author"
+        },
+        "body": {
+          "description": "The message text, with one `[Image #N]` placeholder per attached image.",
+          "title": "Body",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "When the message was received.",
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "description": "Unique identifier of the message.",
+          "title": "Id",
+          "type": "string"
+        },
+        "images": {
+          "description": "Images attached to the message, metadata only: index, media type, size. The bytes go to the model, never over the stream.",
+          "items": {
+            "$ref": "#/$defs/SessionMessageImage"
+          },
+          "title": "Images",
+          "type": "array"
+        },
+        "index": {
+          "description": "Position in the session, starting at 0.",
+          "title": "Index",
+          "type": "integer"
+        },
+        "session_id": {
+          "description": "Identifier of the session the message belongs to.",
+          "title": "Session Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "index",
+        "body",
+        "created_at"
+      ],
+      "title": "SessionMessage",
+      "type": "object"
+    },
+    "SessionMessageImage": {
+      "description": "One image on a message, metadata only. `index` is the N in the\n`[Image #N]` placeholder in the message body.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The image's ID. `GET /v1/sessions/{session_id}/images/{id}` returns its bytes. Null when the image can't be fetched.",
+          "title": "Id"
+        },
+        "index": {
+          "description": "1-based position: the N in `[Image #N]`.",
+          "title": "Index",
+          "type": "integer"
+        },
+        "media_type": {
+          "description": "The image's MIME type.",
+          "title": "Media Type",
+          "type": "string"
+        },
+        "size_bytes": {
+          "description": "Size of the decoded image, in bytes.",
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "index",
+        "media_type",
+        "size_bytes"
+      ],
+      "title": "SessionMessageImage",
+      "type": "object"
+    },
+    "TokenCounts": {
+      "description": "Token counts.",
+      "properties": {
+        "cache_creation": {
+          "default": 0,
+          "description": "Tokens written to the prompt cache.",
+          "title": "Cache Creation",
+          "type": "integer"
+        },
+        "cache_read": {
+          "default": 0,
+          "description": "Tokens read from the prompt cache.",
+          "title": "Cache Read",
+          "type": "integer"
+        },
+        "input": {
+          "default": 0,
+          "description": "Input tokens used.",
+          "title": "Input",
+          "type": "integer"
+        },
+        "output": {
+          "default": 0,
+          "description": "Output tokens used.",
+          "title": "Output",
+          "type": "integer"
+        },
+        "total": {
+          "default": 0,
+          "description": "All tokens used, including prompt cache reads and writes. Token cost is priced on this.",
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "title": "TokenCounts",
+      "type": "object"
+    },
+    "Tokens": {
+      "description": "Tokens used, in total and by model.",
+      "properties": {
+        "all": {
+          "$ref": "#/$defs/TokenCounts",
+          "description": "Token counts across every model."
+        },
+        "by_model": {
+          "description": "Token counts for each model that used tokens.",
+          "items": {
+            "$ref": "#/$defs/ModelTokenCounts"
+          },
+          "title": "By Model",
+          "type": "array"
+        }
+      },
+      "title": "Tokens",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Payloads of source='lifecycle' session records, keyed by record_type. Contract: payload changes are additive-only; clients MUST ignore unknown record types and unknown payload fields, and MUST render unknown phase/step/status values generically.",
+  "properties": {
+    "environment_output": {
+      "$ref": "#/$defs/EnvironmentOutputPayload"
+    },
+    "environment_phase": {
+      "$ref": "#/$defs/EnvironmentPhasePayload"
+    },
+    "environment_ready": {
+      "$ref": "#/$defs/EnvironmentReadyPayload"
+    },
+    "message": {
+      "$ref": "#/$defs/SessionMessage"
+    },
+    "message_ended": {
+      "$ref": "#/$defs/MessageEndedPayload"
+    },
+    "message_queued": {
+      "$ref": "#/$defs/MessageQueuedPayload"
+    },
+    "message_requeued": {
+      "$ref": "#/$defs/MessageRequeuedPayload"
+    },
+    "message_started": {
+      "$ref": "#/$defs/MessageStartedPayload"
+    },
+    "session_closed": {
+      "$ref": "#/$defs/SessionClosedPayload"
+    }
+  },
+  "required": [
+    "environment_output",
+    "environment_phase",
+    "environment_ready",
+    "message",
+    "message_ended",
+    "message_queued",
+    "message_requeued",
+    "message_started",
+    "session_closed"
+  ],
+  "title": "LifecyclePayloads",
+  "type": "object"
+}
